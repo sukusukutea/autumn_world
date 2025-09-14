@@ -18,7 +18,9 @@
        data-game-summer-trees-value="<%= asset_path('summer/trees_summer.png') %>"
        data-game-autumn-trees-value="<%= asset_path('autumn/trees_autumn.png') %>"
        data-game-summer-ground-value="<%= asset_path('summer/ground_summer.png') %>"
-       data-game-autumn-ground-value="<%= asset_path('autumn/ground_autumn.png') %>">
+       data-game-autumn-ground-value="<%= asset_path('autumn/ground_autumn.png') %>"
+       data-game-summer-cloud-value="<%= asset_path('summer/cloud_summer.png') %>"
+       data-game-autumn-cloud-value="<%= asset_path('autumn/cloud_autumn.png') %>">
     
     <div class="game-field">
       <!-- 空レイヤー -->
@@ -27,6 +29,14 @@
             class: "layer-image",
             id: "sky-image",
             data: { game_target: "sky" }) %>
+      </div>
+
+      <!-- 雲レイヤー -->
+      <div class="layer cloud-layer">
+        <%= image_tag('summer/cloud_summer.png',
+            class: "layer-image",
+            id: "cloud-image",
+            data: { game_target: "cloud" }) %>
       </div>
       
       <!-- 木々レイヤー -->

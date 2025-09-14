@@ -190,19 +190,26 @@ body {
     height: 57.14%;
     z-index: 1;
   }
-  
+
+  &.cloud-layer {
+    top: 0;
+    left: 0;
+    height: 57.14%;
+    z-index: 2;
+  }
+
   &.ground-layer {
     top: 42.86%;
     left: 0;
     height: 57.14%;
-    z-index: 2;
+    z-index: 3;
   }
   
   &.trees-layer {
     top: 21.43%;
     left: 0;
     height: 35.71%;
-    z-index: 3;
+    z-index: 4;
   }
 }
 

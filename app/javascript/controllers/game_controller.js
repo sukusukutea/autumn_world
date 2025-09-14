@@ -1,21 +1,29 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["sky", "trees", "ground", "message", "wordInput"]
+  static targets = ["sky", "trees", "ground", "message", "wordInput", "cloud"]
   static values = { 
     summerSky: String,
     autumnSky: String,
     summerTrees: String, 
     autumnTrees: String,
     summerGround: String,
-    autumnGround: String
+    autumnGround: String,
+    summerCloud: String,
+    autumnCloud: String
   }
 
   connect() {
     console.log("ゲームコントローラー接続完了！")
     console.log("利用可能な画像パス:", {
       summerTrees: this.summerTreesValue,
-      autumnTrees: this.autumnTreesValue
+      autumnTrees: this.autumnTreesValue,
+      summerSky: this.summerSkyValue,
+      autumnSky: this.autumnSkyValue,
+      summerGround: this.summerGroundValue,
+      autumnGround: this.autumnGroundValue,
+      summerCloud: this.summerCloudValue,
+      autumnCloud: this.autumnCloudValue,
     })
   }
 
@@ -83,6 +91,11 @@ export default class extends Controller {
       case "sky_color":
         if (effect.effect_data === "autumn") {
           this.changeSkyColor("autumn")
+        }
+        break
+      case "cloud_style":
+        if (effect.effect_data === "autumn") {
+          this.changeCloudStyle("autumn")
         }
         break
       case "ground_color": // 追加
@@ -170,7 +183,7 @@ export default class extends Controller {
     }
   }
 
-  // 🌅 空の色変更
+  // 空の色変更
   changeSkyColor(colorType) {
     const skyElement = this.skyTarget
     
@@ -190,12 +203,32 @@ export default class extends Controller {
     }
   }
 
-  // 🌾 地面の色変更
+    // 雲の変更
+  changeCloudStyle(styleType) {
+    const cloudElement = this.cloudTarget
+    
+    if (styleType === "autumn") {
+      console.log("雲をうろこ雲に変更...")
+      
+      // 変化アニメーション
+      cloudElement.style.transition = "all 2s ease-in-out"
+      cloudElement.style.filter = "hue-rotate(20deg) saturate(1.1) brightness(0.9)"
+      
+      // 画像をうろこ雲に変更
+      setTimeout(() => {
+        cloudElement.src = this.autumnCloudValue
+        cloudElement.style.filter = "none"
+        console.log("雲の変更完了:", cloudElement.src)
+      }, 1000)
+    }
+  }
+
+  // 地面の色変更
   changeGroundColor(colorType) {
     const groundElement = this.groundTarget
     
     if (colorType === "autumn") {
-      console.log("🌾 地面を秋色に変更開始...")
+      console.log("地面を秋色に変更開始...")
       
       // 変化アニメーション
       groundElement.style.transition = "all 1.8s ease-in-out"
@@ -205,7 +238,7 @@ export default class extends Controller {
       setTimeout(() => {
         groundElement.src = this.autumnGroundValue
         groundElement.style.filter = "none"
-        console.log("🌾 地面の変更完了:", groundElement.src)
+        console.log("地面の変更完了:", groundElement.src)
       }, 900)
     }
   }
@@ -231,11 +264,13 @@ export default class extends Controller {
         this.skyTarget.src = this.summerSkyValue
         this.treesTarget.src = this.summerTreesValue
         this.groundTarget.src = this.summerGroundValue
+        this.cloudTarget.src = this.summerCloudValue
         
         // フィルターをリセット
         this.skyTarget.style.filter = "none"
         this.treesTarget.style.filter = "none"
         this.groundTarget.style.filter = "none"
+        this.cloudTarget.style.filter = "none"
         
         // 果物を削除
         const fruits = document.querySelectorAll('.fruit')
