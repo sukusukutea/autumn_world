@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>完成した秋の世界</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+</head>
+<body>
+  <div class="complete-page">
+    <h1>あなたが作った秋の世界</h1>
+    
+    <div class="completed-landscape">
+      <!-- 完成した風景を表示 -->
+      <div class="layer">
+        <%= image_tag('summer/sky_summer.png', class: "layer-image") %>
+      </div>
+      
+      <% if @landscape_state["tree_color"] == "autumn" %>
+        <div class="layer">
+          <%= image_tag('autumn/trees_autumn.png', class: "layer-image") %>
+        </div>
+      <% else %>
+        <div class="layer">
+          <%= image_tag('summer/trees_summer.png', class: "layer-image") %>
+        </div>
+      <% end %>
+      
+      <div class="layer">
+        <%= image_tag('summer/ground_summer.png', class: "layer-image") %>
+      </div>
+    </div>
+    
+    <div class="used-words">
+      <h3>使った言葉</h3>
+      <% @used_words.each do |word| %>
+        <span class="word-tag"><%= word %></span>
+      <% end %>
+    </div>
+    
+    <div class="actions">
+      <%= link_to "もう一度作る", game_path, class: "btn btn-primary" %>
+    

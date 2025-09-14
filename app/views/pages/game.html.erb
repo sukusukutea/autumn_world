@@ -1,2 +1,68 @@
-<h1>Pages#game</h1>
-<p>Find me in app/views/pages/game.html.erb</p>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>秋の世界を育てる</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+</head>
+<body>
+  <div class="game-page" data-controller="game">
+    <div class="game-field">
+      <div class="layer sky-layer">
+        <%= image_tag('summer/sky_summer.png',
+            class: "layer-image",
+            id: "sky-image",
+            data: { game_target: "sky" }) %>
+      </div>
+      <!-- 木々レイヤー -->
+      <div class="layer trees-layer">
+        <%= image_tag('summer/trees_summer.png',
+            class: "layer-image",
+            id: "trees-image",
+            data: { game_target: "trees" }) %>
+      </div>
+      <!-- 地面レイヤー -->
+      <div class="layer ground-layer">
+        <%= image_tag('summer/ground_summer.png',
+            class: "layer-image",
+            id: "ground-image",
+            data: { game_target: "ground" }) %>
+      </div>
+    </div>
+    <!-- メッセージ表示エリア -->
+    <div class="message-area" data-game-target="message"></div>
+     <!-- 入力エリア -->
+      <%= form_with url: input_word_path, local: false, 
+          class: "word-form",
+          data: { 
+            action: "submit->game#transformWorld",
+          } do |f| %>
+        
+        <%= f.text_field :word, 
+            placeholder: "秋といえば？", 
+            class: "word-input",
+            data: { game_target: "wordInput" } %>
+        
+        <div class="button-group">
+          <%= f.submit "世界に反映", 
+            class: "transform-btn",
+            data: { game_target: "transformBtn" } %>
+          <%= link_to "完成", complete_path, class: "complete-btn" %>
+          <%= link_to "最初に戻る", reset_world_path, 
+            method: :post,
+            class: "reset-btn",
+            data: { 
+            game_target: "resetBtn",
+            action: "click->game#resetWorld"
+            },
+            form: { data: { turbo: false } } %>
+        </div>
+      <% end %>   
+    </div>
+  </div>
+</body>
+</html>
