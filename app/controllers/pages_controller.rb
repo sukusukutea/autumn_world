@@ -26,7 +26,7 @@ class PagesController < ApplicationController
 
       render json: {
         success: true,
-        message: "#{word}が世界に反映されました！",
+        message: autumn_words[:message],
         effect: autumn_words
       }
     else
@@ -43,7 +43,7 @@ class PagesController < ApplicationController
     
     render json: {
       success: true,
-      message: "世界が初期状態に戻りました！🌱",
+      message: "世界が初期状態に戻りました！",
       reset: true
     }
   end
@@ -62,8 +62,8 @@ class PagesController < ApplicationController
   def check_autumn_word(word)
     autumn_data = {
       "紅葉" => { effect_type: "tree_color", effect_data: "autumn", message: "木々が美しく色づきました" },
-      "もみじ" => { effect_type: "tree_color", effect_data: "autumn", message: "木々が美しく色づきました" },
-      "りんご" => {effect_type: "add_fruit", effect_data: "apple", message: "赤いりんごが実りました"},
+      "秋空" => { effect_type: "sky_color", effect_data: "autumn", message: "空が秋の澄んだ青色に染まりました" },
+      "枯れ草" => { effect_type: "ground_color", effect_data: "autumn", message: "芝生が秋に色付きました" },
     }
 
     autumn_data[word]

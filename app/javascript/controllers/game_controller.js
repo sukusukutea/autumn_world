@@ -1,164 +1,305 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["wordInput", "transformBtn", "message", "sky", "ground", "trees", "resetBtn"]
-
-  connect() {
-    console.log("ゲームコントローラー接続完了！🎮")
+  static targets = ["sky", "trees", "ground", "message", "wordInput"]
+  static values = { 
+    summerSky: String,
+    autumnSky: String,
+    summerTrees: String, 
+    autumnTrees: String,
+    summerGround: String,
+    autumnGround: String
   }
 
-  async transformWorld(event) {
-    event.preventDefault()
+  connect() {
+    console.log("ゲームコントローラー接続完了！")
+    console.log("利用可能な画像パス:", {
+      summerTrees: this.summerTreesValue,
+      autumnTrees: this.autumnTreesValue
+    })
+  }
+
+  // エンターキーでの入力処理
+  handleEnter(event) {
+    if (event.key === "Enter") {
+      event.preventDefault()
+      this.transformWorld()
+    }
+  }
+
+  // 🌟 メイン機能：世界に反映ボタンの処理
+  async transformWorld() {
+    const inputWord = this.wordInputTarget.value.trim()
     
-    const word = this.wordInputTarget.value.trim()
-    const submitButton = this.transformBtnTarget
-    
-    if (!word) {
-      this.showMessage("言葉を入力してね！", "error")
+    if (!inputWord) {
+      this.showMessage("言葉を入力してください", "error")
       return
     }
 
-    // ボタンを無効化（連続クリック防止）
-    submitButton.disabled = true
-    submitButton.textContent = "変化中..."
-
     try {
+      // サーバーにAjaxリクエストを送信
       const response = await fetch('/input_word', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
         },
-        body: JSON.stringify({ word: word })
+        body: JSON.stringify({ word: inputWord })
       })
 
       const data = await response.json()
-
+      
       if (data.success) {
+        // 成功時の処理
         this.showMessage(data.message, "success")
-        this.applyEffect(data.effect)
-        this.wordInputTarget.value = "" // 入力欄をクリア
+        
+        // エフェクトがある場合は適用
+        if (data.effect) {
+          this.applyEffect(data.effect)
+        }
+        
+        // 入力欄をクリア
+        this.wordInputTarget.value = ""
       } else {
+        // 失敗時の処理
         this.showMessage(data.message, "error")
       }
     } catch (error) {
-      console.error('エラー:', error)
-      this.showMessage("何かエラーが発生しました...", "error")
-    } finally {
-      // ボタンを元に戻す
-      submitButton.disabled = false
-      submitButton.textContent = "世界に反映"
+      console.error('エラーが発生しました:', error)
+      this.showMessage("通信エラーが発生しました", "error")
     }
   }
 
-  async resetWorld(event) {
-    event.preventDefault()
-    
-    const resetButton = this.resetBtnTarget
-    
-    // 確認ダイアログを表示
-    if (!confirm("本当に最初の状態に戻しますか？これまでの変化がすべてリセットされます。")) {
-      return
-    }
-
-    resetButton.disabled = true
-    resetButton.textContent = "リセット中..."
-
-    try {
-      const response = await fetch('/reset_world', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
-        }
-      })
-
-      const data = await response.json()
-
-      if (data.success) {
-        this.showMessage(data.message, "success")
-        this.resetToInitialState()
-      } else {
-        this.showMessage("リセットに失敗しました...", "error")
-      }
-    } catch (error) {
-      console.error('エラー:', error)
-      this.showMessage("何かエラーが発生しました...", "error")
-    } finally {
-      resetButton.disabled = false
-      resetButton.textContent = "最初に戻る"
-    }
-  }
-
-  // 🆕 画面を初期状態に戻す
-  resetToInitialState() {
-    // 木々を夏の状態に戻す
-    const treesElement = this.treesTarget
-    treesElement.style.transition = "all 1.5s ease-in-out"
-    treesElement.style.filter = "none"
-    
-    // 画像を夏の木に変更
-    setTimeout(() => {
-      treesElement.src = treesElement.src.replace('trees_autumn', 'trees_summer')
-    }, 750)
-
-    // 空と地面も夏の状態に戻す（将来の拡張用）
-    const skyElement = this.skyTarget
-    const groundElement = this.groundTarget
-    
-    skyElement.src = skyElement.src.replace('sky_autumn', 'sky_summer')
-    groundElement.src = groundElement.src.replace('ground_autumn', 'ground_summer')
-
-    // 入力欄をクリア
-    this.wordInputTarget.value = ""
-  }
-
+  // エフェクト適用処理
   applyEffect(effect) {
     console.log("エフェクト適用:", effect)
     
-    switch(effect.effect_type) {
+    switch (effect.effect_type) {
       case "tree_color":
-        this.changeTreeColor(effect.effect_data)
+        if (effect.effect_data === "autumn") {
+          this.changeTreeColor("autumn")
+        }
         break
+      case "sky_color":
+        if (effect.effect_data === "autumn") {
+          this.changeSkyColor("autumn")
+        }
+        break
+      case "ground_color": // 追加
+      if (effect.effect_data === "autumn") {
+        this.changeGroundColor("autumn")
+      }
+      break
       case "add_fruit":
-        this.addFruit(effect.effect_data)
-        break
+      if (effect.effect_data === "apple") {
+        this.addFruit("apple")
+      }
+      break
       default:
-        console.log("未知のエフェクト:", effect.effect_type)
+        console.log("未対応のエフェクト:", effect.effect_type)
     }
   }
 
+  // 木の色変更（メイン機能）
   changeTreeColor(colorType) {
     const treesElement = this.treesTarget
     
     if (colorType === "autumn") {
-      // 夏の木から秋の木への変化アニメーション
+      console.log("木を秋色に変更開始...")
+      console.log("現在の画像パス:", treesElement.src)
+      
+      // 変化アニメーション
       treesElement.style.transition = "all 1.5s ease-in-out"
       treesElement.style.filter = "hue-rotate(30deg) saturate(1.2)"
       
       // 画像を秋の木に変更
       setTimeout(() => {
-        treesElement.src = treesElement.src.replace('trees_summer', 'trees_autumn')
+        treesElement.src = this.autumnTreesValue
         treesElement.style.filter = "none"
-      }, 750)
+        console.log("木の変更完了:", treesElement.src)
+      }, 800)
     }
   }
 
+  // 🍎 果物追加機能
   addFruit(fruitType) {
-    // りんごなどのフルーツを追加する処理
-    console.log(`${fruitType}を追加中...`)
-    // 将来的にフルーツ画像を重ねる処理を実装
+    const treesElement = this.treesTarget
+    const treesContainer = treesElement.parentElement
+    
+    if (fruitType === "apple") {
+      // 既存の果物を削除（重複防止）
+      const existingFruits = treesContainer.querySelectorAll('.fruit')
+      existingFruits.forEach(fruit => fruit.remove())
+      
+      // りんごを複数個追加
+      const applePositions = [
+        { left: '25%', top: '30%' },
+        { left: '40%', top: '25%' },
+        { left: '60%', top: '35%' },
+        { left: '75%', top: '28%' }
+      ]
+      
+      applePositions.forEach((position, index) => {
+        setTimeout(() => {
+          const apple = document.createElement('div')
+          apple.className = 'fruit apple'
+          apple.style.cssText = `
+            position: absolute;
+            left: ${position.left};
+            top: ${position.top};
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle at 30% 30%, #ff6b6b, #d63031);
+            border-radius: 50%;
+            transform: scale(0);
+            transition: transform 0.5s ease-out;
+            z-index: 10;
+            box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+          `
+          
+          treesContainer.appendChild(apple)
+          
+          // アニメーション開始
+          setTimeout(() => {
+            apple.style.transform = 'scale(1)'
+          }, 50)
+        }, index * 200)
+      })
+      
+      console.log("りんごを追加しました")
+    }
   }
 
-  showMessage(text, type) {
-    const messageElement = this.messageTarget
-    messageElement.textContent = text
-    messageElement.className = `message ${type}`
+  // 🌅 空の色変更
+  changeSkyColor(colorType) {
+    const skyElement = this.skyTarget
     
-    // メッセージを3秒後に消す
+    if (colorType === "autumn") {
+      console.log("空を秋色に変更開始...")
+      
+      // 変化アニメーション
+      skyElement.style.transition = "all 2s ease-in-out"
+      skyElement.style.filter = "hue-rotate(20deg) saturate(1.1) brightness(0.9)"
+      
+      // 画像を秋の空に変更
+      setTimeout(() => {
+        skyElement.src = this.autumnSkyValue
+        skyElement.style.filter = "none"
+        console.log("空の変更完了:", skyElement.src)
+      }, 1000)
+    }
+  }
+
+  // 🌾 地面の色変更
+  changeGroundColor(colorType) {
+    const groundElement = this.groundTarget
+    
+    if (colorType === "autumn") {
+      console.log("🌾 地面を秋色に変更開始...")
+      
+      // 変化アニメーション
+      groundElement.style.transition = "all 1.8s ease-in-out"
+      groundElement.style.filter = "hue-rotate(25deg) saturate(1.3) brightness(0.95)"
+      
+      // 画像を秋の地面に変更
+      setTimeout(() => {
+        groundElement.src = this.autumnGroundValue
+        groundElement.style.filter = "none"
+        console.log("🌾 地面の変更完了:", groundElement.src)
+      }, 900)
+    }
+  }
+
+  // 🔄 世界をリセット
+  async resetWorld() {
+    try {
+      const response = await fetch('/reset_world', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+        }
+      })
+
+      const data = await response.json()
+      
+      if (data.success) {
+        // 成功メッセージ表示
+        this.showMessage(data.message, "success")
+        
+        // 画像を夏の状態に戻す
+        this.skyTarget.src = this.summerSkyValue
+        this.treesTarget.src = this.summerTreesValue
+        this.groundTarget.src = this.summerGroundValue
+        
+        // フィルターをリセット
+        this.skyTarget.style.filter = "none"
+        this.treesTarget.style.filter = "none"
+        this.groundTarget.style.filter = "none"
+        
+        // 果物を削除
+        const fruits = document.querySelectorAll('.fruit')
+        fruits.forEach(fruit => fruit.remove())
+        
+        // 入力欄をクリア
+        this.wordInputTarget.value = ""
+        
+        console.log("🔄 世界をリセットしました")
+      } else {
+        this.showMessage("リセットに失敗しました", "error")
+      }
+    } catch (error) {
+      console.error('リセットエラー:', error)
+      this.showMessage("通信エラーが発生しました", "error")
+    }
+  }
+
+  // 💬 メッセージ表示機能
+showMessage(text, type = "info") {
+    const messageElement = this.messageTarget
+    
+    // メッセージのスタイル設定
+    const styles = {
+      success: { color: "#27ae60", background: "#d5f4e6" },
+      error: { color: "#e74c3c", background: "#fdf2f2" },
+      warning: { color: "#f39c12", background: "#fef9e7" },
+      info: { color: "#3498db", background: "#eaf4fd" }
+    }
+    
+    const style = styles[type] || styles.info
+    
+    messageElement.textContent = text
+    messageElement.style.cssText = `
+      padding: 15px 20px;
+      margin: 10px 0;
+      border-radius: 8px;
+      font-weight: bold;
+      text-align: center;
+      color: ${style.color};
+      background-color: ${style.background};
+      border: 2px solid ${style.color};
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.3s ease-out;
+    `
+    
+    // アニメーション表示
     setTimeout(() => {
-      messageElement.textContent = ""
-      messageElement.className = "message"
+      messageElement.style.opacity = "1"
+      messageElement.style.transform = "translateY(0)"
+    }, 50)
+    
+    // 3秒後に自動で非表示
+    setTimeout(() => {
+      messageElement.style.opacity = "0"
+      messageElement.style.transform = "translateY(-10px)"
+      
+      setTimeout(() => {
+        messageElement.textContent = ""
+        messageElement.style.cssText = ""
+      }, 300)
     }, 3000)
+    
+    console.log(`💬 メッセージ表示: ${text} (${type})`)
   }
 }

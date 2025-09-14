@@ -10,14 +10,25 @@
   <%= javascript_importmap_tags %>
 </head>
 <body>
-  <div class="game-page" data-controller="game">
+  <!-- ✨ データ属性でアセットパスを渡す -->
+  <div class="game-page" 
+       data-controller="game"
+       data-game-summer-sky-value="<%= asset_path('summer/sky_summer.png') %>"
+       data-game-autumn-sky-value="<%= asset_path('autumn/sky_autumn.png') %>"
+       data-game-summer-trees-value="<%= asset_path('summer/trees_summer.png') %>"
+       data-game-autumn-trees-value="<%= asset_path('autumn/trees_autumn.png') %>"
+       data-game-summer-ground-value="<%= asset_path('summer/ground_summer.png') %>"
+       data-game-autumn-ground-value="<%= asset_path('autumn/ground_autumn.png') %>">
+    
     <div class="game-field">
+      <!-- 空レイヤー -->
       <div class="layer sky-layer">
         <%= image_tag('summer/sky_summer.png',
             class: "layer-image",
             id: "sky-image",
             data: { game_target: "sky" }) %>
       </div>
+      
       <!-- 木々レイヤー -->
       <div class="layer trees-layer">
         <%= image_tag('summer/trees_summer.png',
@@ -25,6 +36,7 @@
             id: "trees-image",
             data: { game_target: "trees" }) %>
       </div>
+      
       <!-- 地面レイヤー -->
       <div class="layer ground-layer">
         <%= image_tag('summer/ground_summer.png',
@@ -33,35 +45,35 @@
             data: { game_target: "ground" }) %>
       </div>
     </div>
+    
     <!-- メッセージ表示エリア -->
     <div class="message-area" data-game-target="message"></div>
-     <!-- 入力エリア -->
-      <%= form_with url: input_word_path, local: false, 
-          class: "word-form",
-          data: { 
-            action: "submit->game#transformWorld",
-          } do |f| %>
-        
-        <%= f.text_field :word, 
-            placeholder: "秋といえば？", 
-            class: "word-input",
-            data: { game_target: "wordInput" } %>
+    
+    <!-- ✨ 入力エリア（form_withを使わない版） -->
+    <div class="input-area">
+      <div class="word-form">
+        <input type="text" 
+               placeholder="秋といえば？" 
+               class="word-input"
+               data-game-target="wordInput"
+               data-action="keypress->game#handleEnter">
         
         <div class="button-group">
-          <%= f.submit "世界に反映", 
-            class: "transform-btn",
-            data: { game_target: "transformBtn" } %>
+          <button type="button" 
+                  class="transform-btn"
+                  data-action="click->game#transformWorld">
+            世界に反映
+          </button>
+          
           <%= link_to "完成", complete_path, class: "complete-btn" %>
-          <%= link_to "最初に戻る", reset_world_path, 
-            method: :post,
-            class: "reset-btn",
-            data: { 
-            game_target: "resetBtn",
-            action: "click->game#resetWorld"
-            },
-            form: { data: { turbo: false } } %>
+          
+          <button type="button" 
+                  class="reset-btn"
+                  data-action="click->game#resetWorld">
+            最初に戻る
+          </button>
         </div>
-      <% end %>   
+      </div>
     </div>
   </div>
 </body>
