@@ -20,7 +20,12 @@
        data-game-summer-ground-value="<%= asset_path('summer/ground_summer.png') %>"
        data-game-autumn-ground-value="<%= asset_path('autumn/ground_autumn.png') %>"
        data-game-summer-cloud-value="<%= asset_path('summer/cloud_summer.png') %>"
-       data-game-autumn-cloud-value="<%= asset_path('autumn/cloud_autumn.png') %>">
+       data-game-autumn-cloud-value="<%= asset_path('autumn/cloud_autumn.png') %>"
+       data-game-summer-mountain-value="<%= asset_path('summer/mountain_summer.png') %>"
+       data-game-autumn-mountain-value="<%= asset_path('autumn/mountain_autumn.png') %>"
+       data-game-summer-grandma-value="<%= asset_path('summer/grandma_summer.png') %>"
+       data-game-autumn-grandma-value="<%= asset_path('autumn/grandma_autumn.png') %>"
+       data-game-autumn-persimmon-value="<%= asset_path('autumn/persimmon.png') %>">
     
     <div class="game-field">
       <!-- 空レイヤー -->
@@ -38,6 +43,14 @@
             id: "cloud-image",
             data: { game_target: "cloud" }) %>
       </div>
+
+      <!-- 山レイヤー -->
+      <div class="layer mountain-layer">
+        <%= image_tag('summer/mountain_summer.png',
+            class: "layer-image",
+            id: "mountain-image",
+            data: { game_target: "mountain" }) %>
+      </div>
       
       <!-- 木々レイヤー -->
       <div class="layer trees-layer">
@@ -53,6 +66,22 @@
             class: "layer-image",
             id: "ground-image",
             data: { game_target: "ground" }) %>
+      </div>
+
+      <!-- グランマレイヤー -->
+      <div class="layer grandma-layer">
+        <%= image_tag('summer/grandma_summer.png',
+            class: "layer-image",
+            id: "grandma-image",
+            data: { game_target: "grandma" }) %>
+      </div>
+
+      <!-- 柿レイヤー -->
+      <div class="layer persimmon-layer" style="display: none;">
+        <%= image_tag('autumn/persimmon.png',
+            class: "layer-image",
+            id: "persimmon-image",
+            data: { game_target: "persimmon" }) %>
       </div>
     </div>
     

@@ -198,18 +198,39 @@ body {
     z-index: 2;
   }
 
+  &.mountain-layer {
+    top: 0;
+    left: 0;
+    height: 57.14%;
+    z-index: 3;
+  }
   &.ground-layer {
     top: 42.86%;
     left: 0;
     height: 57.14%;
-    z-index: 3;
+    z-index: 4;
   }
   
   &.trees-layer {
     top: 21.43%;
     left: 0;
     height: 35.71%;
-    z-index: 4;
+    z-index: 5;
+  }
+
+  &.grandma-layer {
+    top: 42.86%;
+    left: 0;
+    height: 57.14%;
+    z-index: 6;
+  }
+
+  &.persimmon-layer {
+    top: 0;
+    left: 0;
+    height: 57.14%;
+    z-index: 7;
+    display: none;
   }
 }
 

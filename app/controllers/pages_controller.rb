@@ -61,12 +61,22 @@ class PagesController < ApplicationController
 
   def check_autumn_word(word)
     autumn_data = {
-      "紅葉" => { effect_type: "tree_color", effect_data: "autumn", message: "木々山々が美しく色づきました" },
+      "紅葉" => { 
+        effect_type: "multiple",
+        effect_data: ["tree_color", "mountain_color"],
+        message: "木々山々が美しく色づきました"
+      },
+
       "秋空" => { effect_type: "sky_color", effect_data: "autumn", message: "空が秋の澄んだ青色に染まりました" },
       "秋晴れ" => { effect_type: "sky_color", effect_data: "autumn", message: "空が秋の澄んだ青色に染まりました" },
       "枯れ草" => { effect_type: "ground_color", effect_data: "autumn", message: "芝生が秋に色付きました" },
       "秋雲" => { effect_type: "cloud_style", effect_data: "autumn", message: "うろこ雲が浮かびました" },
       "うろこ雲" => { effect_type: "cloud_style", effect_data: "autumn", message: "うろこ雲が浮かびました" },
+      "秋服" => { effect_type: "grandma_style", effect_data: "autumn", message: "おばあちゃんは秋の装いにしました" },
+      "カーディガン" => { effect_type: "grandma_style", effect_data: "autumn", message: "おばあちゃんは秋の装いにしました" },
+      "肌寒い" => { effect_type: "grandma_style", effect_data: "autumn", message: "おばあちゃんは秋の装いにしました" },
+      "涼しい" => { effect_type: "grandma_style", effect_data: "autumn", message: "おばあちゃんは秋の装いにしました" },
+      "柿" => { effect_type: "add_fruit", effect_data: "persimmon", message: "柿が鈴なりに実りました" },
     }
 
     autumn_data[word]

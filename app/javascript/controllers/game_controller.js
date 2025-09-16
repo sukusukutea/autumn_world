@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["sky", "trees", "ground", "message", "wordInput", "cloud"]
+  static targets = ["sky", "trees", "ground", "message", "wordInput", "cloud", "mountain", "grandma", "persimmon"]
   static values = { 
     summerSky: String,
     autumnSky: String,
@@ -10,7 +10,13 @@ export default class extends Controller {
     summerGround: String,
     autumnGround: String,
     summerCloud: String,
-    autumnCloud: String
+    autumnCloud: String,
+    summerMountain: String,
+    autumnMountain: String,
+    summerGrandma: String,
+    autumnGrandma: String,
+    autumnPersimmon: String,
+
   }
 
   connect() {
@@ -24,6 +30,11 @@ export default class extends Controller {
       autumnGround: this.autumnGroundValue,
       summerCloud: this.summerCloudValue,
       autumnCloud: this.autumnCloudValue,
+      summerMountain: this.summerMountainValue,
+      autumnMountain: this.autumnMountainValue,
+      summerGrandma: this.summerGrandmaValue,
+      autumnGrandma: this.autumnGrandmaValue,
+      autumnPersimmon: this.autumnPersimmonValue,
     })
   }
 
@@ -35,7 +46,7 @@ export default class extends Controller {
     }
   }
 
-  // 🌟 メイン機能：世界に反映ボタンの処理
+  //メイン機能：世界に反映ボタンの処理
   async transformWorld() {
     const inputWord = this.wordInputTarget.value.trim()
     
@@ -81,13 +92,23 @@ export default class extends Controller {
   // エフェクト適用処理
   applyEffect(effect) {
     console.log("エフェクト適用:", effect)
-    
-    switch (effect.effect_type) {
-      case "tree_color":
-        if (effect.effect_data === "autumn") {
+  
+    // 複数エフェクトの場合（紅葉で木と山が同時変化）
+    if (effect.effect_type === "multiple") {
+      console.log("複数エフェクト実行:", effect.effect_data)
+
+      effect.effect_data.forEach((effectType) => {
+        if (effectType === "tree_color") {
           this.changeTreeColor("autumn")
         }
-        break
+        if (effectType === "mountain_color") {
+          this.changeMountainColor("autumn")
+        }
+      })
+      return // 複数エフェクトの場合はここで処理終了
+    }
+    
+    switch (effect.effect_type) {
       case "sky_color":
         if (effect.effect_data === "autumn") {
           this.changeSkyColor("autumn")
@@ -98,14 +119,21 @@ export default class extends Controller {
           this.changeCloudStyle("autumn")
         }
         break
-      case "ground_color": // 追加
-      if (effect.effect_data === "autumn") {
-        this.changeGroundColor("autumn")
-      }
-      break
+      case "ground_color":
+        if (effect.effect_data === "autumn") {
+          this.changeGroundColor("autumn")
+        }
+        break
       case "add_fruit":
-      if (effect.effect_data === "apple") {
-        this.addFruit("apple")
+        if (effect.effect_data === "apple") {
+          this.addFruit("apple")
+        } else if (effect.effect_data === "persimmon") {
+          this.addFruit("persimmon")
+        }
+      break
+      case "grandma_style":
+      if (effect.effect_data === "autumn") {
+        this.changeGrandmaStyle("autumn")
       }
       break
       default:
@@ -134,52 +162,40 @@ export default class extends Controller {
     }
   }
 
-  // 🍎 果物追加機能
-  addFruit(fruitType) {
-    const treesElement = this.treesTarget
-    const treesContainer = treesElement.parentElement
+    // 山の色変更（メイン機能）
+  changeMountainColor(colorType) {
+    const mountainElement = this.mountainTarget
     
-    if (fruitType === "apple") {
-      // 既存の果物を削除（重複防止）
-      const existingFruits = treesContainer.querySelectorAll('.fruit')
-      existingFruits.forEach(fruit => fruit.remove())
+    if (colorType === "autumn") {
+      console.log("山を秋色に変更開始...")
+      console.log("現在の画像パス:", mountainElement.src)
       
-      // りんごを複数個追加
-      const applePositions = [
-        { left: '25%', top: '30%' },
-        { left: '40%', top: '25%' },
-        { left: '60%', top: '35%' },
-        { left: '75%', top: '28%' }
-      ]
+      // 変化アニメーション
+      mountainElement.style.transition = "all 1.5s ease-in-out"
+      mountainElement.style.filter = "hue-rotate(30deg) saturate(1.2)"
       
-      applePositions.forEach((position, index) => {
-        setTimeout(() => {
-          const apple = document.createElement('div')
-          apple.className = 'fruit apple'
-          apple.style.cssText = `
-            position: absolute;
-            left: ${position.left};
-            top: ${position.top};
-            width: 20px;
-            height: 20px;
-            background: radial-gradient(circle at 30% 30%, #ff6b6b, #d63031);
-            border-radius: 50%;
-            transform: scale(0);
-            transition: transform 0.5s ease-out;
-            z-index: 10;
-            box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-          `
-          
-          treesContainer.appendChild(apple)
-          
-          // アニメーション開始
-          setTimeout(() => {
-            apple.style.transform = 'scale(1)'
-          }, 50)
-        }, index * 200)
-      })
-      
-      console.log("りんごを追加しました")
+      // 画像を秋の山に変更
+      setTimeout(() => {
+        mountainElement.src = this.autumnMountainValue
+        mountainElement.style.filter = "none"
+        console.log("山の変更完了:", mountainElement.src)
+      }, 800)
+    }
+  }
+
+  // 果物追加機能
+  addFruit(fruitType) {
+    console.log("果物追加:", fruitType)
+
+    if (fruitType === "persimmon") {
+      const persimmonElement = this.persimmonTarget
+      const persimmonLayer = persimmonElement.closest('.persimmon-layer')
+
+      persimmonLayer.style.display = 'block'
+      persimmonLayer.style.opacity = '1'
+      persimmonLayer.style.transform = 'scale(1)'
+
+      console.log("柿の表示完了!")
     }
   }
 
@@ -243,6 +259,27 @@ export default class extends Controller {
     }
   }
 
+  // グランマの変更
+  changeGrandmaStyle(styleType) {
+    const grandmaElement = this.grandmaTarget
+    
+    if (styleType === "autumn") {
+      console.log("装いを変更...")
+      
+      // 変化アニメーション
+      grandmaElement.style.transition = "all 2s ease-in-out"
+      grandmaElement.style.filter = "hue-rotate(20deg) saturate(1.1) brightness(0.9)"
+      
+      // 画像をうろこ雲に変更
+      setTimeout(() => {
+        grandmaElement.src = this.autumnGrandmaValue
+        grandmaElement.style.filter = "none"
+        console.log("装い変更完了:", cloudElement.src)
+      }, 1000)
+    }
+  }
+
+
   // 🔄 世界をリセット
   async resetWorld() {
     try {
@@ -265,12 +302,16 @@ export default class extends Controller {
         this.treesTarget.src = this.summerTreesValue
         this.groundTarget.src = this.summerGroundValue
         this.cloudTarget.src = this.summerCloudValue
+        this.mountainTarget.src = this.summerMountainValue
+        this.grandmaTarget.src = this.summerGrandmaValue
         
         // フィルターをリセット
         this.skyTarget.style.filter = "none"
         this.treesTarget.style.filter = "none"
         this.groundTarget.style.filter = "none"
         this.cloudTarget.style.filter = "none"
+        this.mountainTarget.style.filter = "none"
+        this.grandmaTarget.style.filter = "none"
         
         // 果物を削除
         const fruits = document.querySelectorAll('.fruit')
