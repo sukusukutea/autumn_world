@@ -15,27 +15,37 @@ export default class extends Controller {
     autumnMountain: String,
     summerGrandma: String,
     autumnGrandma: String,
-    autumnPersimmon: String,
-
+    persimmonImage: String,
   }
 
   connect() {
     console.log("ゲームコントローラー接続完了！")
-    console.log("利用可能な画像パス:", {
-      summerTrees: this.summerTreesValue,
-      autumnTrees: this.autumnTreesValue,
-      summerSky: this.summerSkyValue,
-      autumnSky: this.autumnSkyValue,
-      summerGround: this.summerGroundValue,
-      autumnGround: this.autumnGroundValue,
-      summerCloud: this.summerCloudValue,
-      autumnCloud: this.autumnCloudValue,
-      summerMountain: this.summerMountainValue,
-      autumnMountain: this.autumnMountainValue,
-      summerGrandma: this.summerGrandmaValue,
-      autumnGrandma: this.autumnGrandmaValue,
-      autumnPersimmon: this.autumnPersimmonValue,
-    })
+  }
+
+  changeElementImage(elementType, colorType) {
+    const config = {
+      tree: { target: this.treesTarget, autumnSrc: this.autumnTreesValue },
+      mountain: { target: this.mountainTarget, autumnSrc: this.autumnMountainValue },
+      ground: { target: this.groundTarget, autumnSrc: this.autumnGroundValue },
+      sky: { target: this.skyTarget, autumnSrc: this.autumnSkyValue },
+      cloud: { target: this.cloudTarget, autumnSrc: this.autumnCloudValue },
+      grandma: { target: this.grandmaTarget, autumnSrc: this.autumnGrandmaValue }
+    }
+
+    const element = config[elementType]?.target
+    if (!element || colorType !== "autumn") return
+
+    console.log(`${elementType}を秋色に変更開始...`)
+    
+    // 共通アニメーション処理
+    element.style.transition = "all 1.5s ease-in-out"
+    element.style.filter = "hue-rotate(30deg) saturate(1.2)"
+    
+    setTimeout(() => {
+      element.src = config[elementType].autumnSrc
+      element.style.filter = "none"
+      console.log(`${elementType}の変更完了`)
+    }, 800)
   }
 
   // エンターキーでの入力処理
@@ -89,6 +99,67 @@ export default class extends Controller {
     }
   }
 
+  addElement(elementType) {
+    console.log(`${elementType}を追加開始...`)
+  
+    const elementConfig = {
+      persimmon: { target: this.persimmonTarget, name: "柿" },
+      apple: { target: this.appleTarget, name: "りんご" },
+      maple: { target: this.mapleTarget, name: "もみじ" },
+      leaves: { target: this.leavesTarget, name: "落ち葉" }
+    }
+  
+    const config = elementConfig[elementType]
+    if (!config) {
+      console.warn(`未知の要素タイプ: ${elementType}`)
+      return
+    }
+  
+    const target = config.target
+
+    const parentLayer = target.parentElement
+      if (parentLayer && parentLayer.classList.contains('layer')) {
+      parentLayer.style.display = "block"
+      console.log(`${config.name}の親レイヤーを表示しました`)
+    }
+
+    // シンプルに表示状態にする
+    target.style.display = "block"
+    target.style.opacity = "1"
+  
+    console.log(`${config.name}の表示完了`)
+  }
+
+  //要素を削除する機能（アニメーションなし）
+  removeElement(elementType) {
+    console.log(`${elementType}を削除開始...`)
+  
+    const elementConfig = {
+      persimmon: { target: this.persimmonTarget, name: "柿" },
+      apple: { target: this.appleTarget, name: "りんご" },
+      maple: { target: this.mapleTarget, name: "もみじ" },
+      leaves: { target: this.leavesTarget, name: "落ち葉" }
+      }
+  
+      const config = elementConfig[elementType]
+      if (!config) return
+  
+      const target = config.target
+      if (!target) return
+
+      // 🔧 親要素（レイヤー）を非表示にする
+      const parentLayer = target.parentElement
+      if (parentLayer && parentLayer.classList.contains('layer')) {
+      parentLayer.style.display = "none"
+      console.log(`${config.name}の親レイヤーを非表示にしました`)
+      }
+  
+      // シンプルに非表示にする
+      target.style.display = "none"
+  
+      console.log(`${config.name}の削除完了`)
+    }
+
   // エフェクト適用処理
   applyEffect(effect) {
     console.log("エフェクト適用:", effect)
@@ -114,7 +185,7 @@ export default class extends Controller {
           this.changeSkyColor("autumn")
         }
         break
-      case "cloud_style":
+      case "cloud_color":
         if (effect.effect_data === "autumn") {
           this.changeCloudStyle("autumn")
         }
@@ -124,16 +195,23 @@ export default class extends Controller {
           this.changeGroundColor("autumn")
         }
         break
+      case "grandma_style":
+        if (effect.effect_data === "autumn") {
+          this.changeGrandmaStyle("autumn")
+      }
+      break
       case "add_fruit":
         if (effect.effect_data === "apple") {
-          this.addFruit("apple")
-        } else if (effect.effect_data === "persimmon") {
-          this.addFruit("persimmon")
-        }
+          this.addElement("apple")
+      } else if (effect.effect_data === "persimmon") {
+        this.addElement("persimmon")
+      }
       break
-      case "grandma_style":
-      if (effect.effect_data === "autumn") {
-        this.changeGrandmaStyle("autumn")
+      case "add_nature":
+      if (effect.effect_data === "maple") {
+      this.addElement("maple")
+      } else if (effect.effect_data === "leaves") {
+        this.addElement("leaves")
       }
       break
       default:
@@ -141,144 +219,35 @@ export default class extends Controller {
     }
   }
 
-  // 木の色変更（メイン機能）
+  // 木の色変更
   changeTreeColor(colorType) {
-    const treesElement = this.treesTarget
-    
-    if (colorType === "autumn") {
-      console.log("木を秋色に変更開始...")
-      console.log("現在の画像パス:", treesElement.src)
-      
-      // 変化アニメーション
-      treesElement.style.transition = "all 1.5s ease-in-out"
-      treesElement.style.filter = "hue-rotate(30deg) saturate(1.2)"
-      
-      // 画像を秋の木に変更
-      setTimeout(() => {
-        treesElement.src = this.autumnTreesValue
-        treesElement.style.filter = "none"
-        console.log("木の変更完了:", treesElement.src)
-      }, 800)
-    }
+    this.changeElementImage('tree', colorType)
   }
 
-    // 山の色変更（メイン機能）
+    // 山の色変更
   changeMountainColor(colorType) {
-    const mountainElement = this.mountainTarget
-    
-    if (colorType === "autumn") {
-      console.log("山を秋色に変更開始...")
-      console.log("現在の画像パス:", mountainElement.src)
-      
-      // 変化アニメーション
-      mountainElement.style.transition = "all 1.5s ease-in-out"
-      mountainElement.style.filter = "hue-rotate(30deg) saturate(1.2)"
-      
-      // 画像を秋の山に変更
-      setTimeout(() => {
-        mountainElement.src = this.autumnMountainValue
-        mountainElement.style.filter = "none"
-        console.log("山の変更完了:", mountainElement.src)
-      }, 800)
-    }
-  }
-
-  // 果物追加機能
-  addFruit(fruitType) {
-    console.log("果物追加:", fruitType)
-
-    if (fruitType === "persimmon") {
-      const persimmonElement = this.persimmonTarget
-      const persimmonLayer = persimmonElement.closest('.persimmon-layer')
-
-      persimmonLayer.style.display = 'block'
-      persimmonLayer.style.opacity = '1'
-      persimmonLayer.style.transform = 'scale(1)'
-
-      console.log("柿の表示完了!")
-    }
+    this.changeElementImage('mountain', colorType)
   }
 
   // 空の色変更
   changeSkyColor(colorType) {
-    const skyElement = this.skyTarget
-    
-    if (colorType === "autumn") {
-      console.log("空を秋色に変更開始...")
-      
-      // 変化アニメーション
-      skyElement.style.transition = "all 2s ease-in-out"
-      skyElement.style.filter = "hue-rotate(20deg) saturate(1.1) brightness(0.9)"
-      
-      // 画像を秋の空に変更
-      setTimeout(() => {
-        skyElement.src = this.autumnSkyValue
-        skyElement.style.filter = "none"
-        console.log("空の変更完了:", skyElement.src)
-      }, 1000)
-    }
+    this.changeElementImage('sky', colorType)
   }
 
     // 雲の変更
-  changeCloudStyle(styleType) {
-    const cloudElement = this.cloudTarget
-    
-    if (styleType === "autumn") {
-      console.log("雲をうろこ雲に変更...")
-      
-      // 変化アニメーション
-      cloudElement.style.transition = "all 2s ease-in-out"
-      cloudElement.style.filter = "hue-rotate(20deg) saturate(1.1) brightness(0.9)"
-      
-      // 画像をうろこ雲に変更
-      setTimeout(() => {
-        cloudElement.src = this.autumnCloudValue
-        cloudElement.style.filter = "none"
-        console.log("雲の変更完了:", cloudElement.src)
-      }, 1000)
-    }
+  changeCloudStyle(colorType) {
+    this.changeElementImage('cloud', colorType)
   }
 
   // 地面の色変更
   changeGroundColor(colorType) {
-    const groundElement = this.groundTarget
-    
-    if (colorType === "autumn") {
-      console.log("地面を秋色に変更開始...")
-      
-      // 変化アニメーション
-      groundElement.style.transition = "all 1.8s ease-in-out"
-      groundElement.style.filter = "hue-rotate(25deg) saturate(1.3) brightness(0.95)"
-      
-      // 画像を秋の地面に変更
-      setTimeout(() => {
-        groundElement.src = this.autumnGroundValue
-        groundElement.style.filter = "none"
-        console.log("地面の変更完了:", groundElement.src)
-      }, 900)
-    }
+    this.changeElementImage('ground', colorType)
   }
 
   // グランマの変更
-  changeGrandmaStyle(styleType) {
-    const grandmaElement = this.grandmaTarget
-    
-    if (styleType === "autumn") {
-      console.log("装いを変更...")
-      
-      // 変化アニメーション
-      grandmaElement.style.transition = "all 2s ease-in-out"
-      grandmaElement.style.filter = "hue-rotate(20deg) saturate(1.1) brightness(0.9)"
-      
-      // 画像をうろこ雲に変更
-      setTimeout(() => {
-        grandmaElement.src = this.autumnGrandmaValue
-        grandmaElement.style.filter = "none"
-        console.log("装い変更完了:", cloudElement.src)
-      }, 1000)
-    }
+  changeGrandmaStyle(colorType) {
+    this.changeElementImage('grandma', colorType)
   }
-
 
   // 🔄 世界をリセット
   async resetWorld() {
@@ -304,6 +273,7 @@ export default class extends Controller {
         this.cloudTarget.src = this.summerCloudValue
         this.mountainTarget.src = this.summerMountainValue
         this.grandmaTarget.src = this.summerGrandmaValue
+        this.removeElement("persimmon")
         
         // フィルターをリセット
         this.skyTarget.style.filter = "none"
@@ -312,11 +282,7 @@ export default class extends Controller {
         this.cloudTarget.style.filter = "none"
         this.mountainTarget.style.filter = "none"
         this.grandmaTarget.style.filter = "none"
-        
-        // 果物を削除
-        const fruits = document.querySelectorAll('.fruit')
-        fruits.forEach(fruit => fruit.remove())
-        
+
         // 入力欄をクリア
         this.wordInputTarget.value = ""
         
@@ -331,7 +297,7 @@ export default class extends Controller {
   }
 
   // 💬 メッセージ表示機能
-showMessage(text, type = "info") {
+  showMessage(text, type = "info") {
     const messageElement = this.messageTarget
     
     // メッセージのスタイル設定
