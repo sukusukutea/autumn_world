@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["sky", "trees", "ground", "message", "wordInput", "cloud", "mountain", "grandma", "persimmon", "grass", "apple", "fire", "fish", "cosmos", "cat", "dog", "dango", "muscle", "book", "osmanthus", "dragonfly", "leaves", "dahlia", "chestnut", "acorns", "sweetpotato", "gentian"]
+  static targets = ["sky", "trees", "ground", "message", "wordInput", "cloud", "mountain", "grandma", "persimmon", "grass", "apple", "fire", "fish", "cosmos", "cat", "dog", "dango", "muscle", "book", "osmanthus", "dragonfly", "leaves", "dahlia", "chestnut", "acorns", "sweetpotato", "gentian", "maple", "ginkgo"]
   static values = { 
     summerSky: String,
     autumnSky: String,
@@ -33,7 +33,8 @@ export default class extends Controller {
     dahliaImage: String,
     chestnutImage: String,
     sweetpotatoImage: String,
-    gentianImage: String
+    gentianImage: String,
+    mapleImage: String
   }
 
   connect() {
@@ -125,7 +126,8 @@ export default class extends Controller {
       persimmon: { target: this.persimmonTarget, name: "柿" },
       apple: { target: this.appleTarget, name: "りんご" },
       grass: { target: this.grassTarget, name: "ススキ" },
-      maple: { target: this.mapleTarget, name: "もみじ" },
+      maple: { target: this.mapleTarget, name: "カエデ" },
+      ginkgo: { target: this.ginkgoTarget, name: "イチョウ" },
       leaves: { target: this.leavesTarget, name: "落ち葉" },
       fire: { target: this.fireTarget, name: "焚き火" },
       fish: { target: this.fishTarget, name: "魚" },
@@ -173,7 +175,8 @@ export default class extends Controller {
     const elementConfig = {
       persimmon: { target: this.persimmonTarget, name: "柿" },
       apple: { target: this.appleTarget, name: "りんご" },
-      maple: { target: this.mapleTarget, name: "もみじ" },
+      maple: { target: this.mapleTarget, name: "カエデ" },
+      ginkgo: { target: this.ginkgoTarget, name: "イチョウ" },
       leaves: { target: this.leavesTarget, name: "落ち葉" },
       grass: { target: this.grassTarget, name: "ススキ" },
       fire: { target: this.fireTarget, name: "焚き火" },
@@ -299,6 +302,8 @@ export default class extends Controller {
         this.addElement("sweetpotato")
       } else if (effect.effect_data === "gentian") {
         this.addElement("gentian")
+      } else if (effect.effect_data === "ginkgo") {
+        this.addElement("ginkgo")
       }
       break
       default:
@@ -379,6 +384,8 @@ export default class extends Controller {
         this.removeElement("chestnut")
         this.removeElement("sweetpotato")
         this.removeElement("gentian")
+        this.removeElement("maple")
+        this.removeElement("ginkgo")
         
         // フィルターをリセット
         this.skyTarget.style.filter = "none"

@@ -98,6 +98,7 @@ class PagesController < ApplicationController
       "金木犀" => { effect_type: "add_nature", effect_data: "osmanthus", message: "金木犀の花が咲きました" },
       "落ち葉" => { effect_type: "add_nature", effect_data: "leaves", message: "落ち葉が舞うと綺麗ですね" },
       "もみじ" => { effect_type: "add_nature", effect_data: "leaves", message: "もみじが舞うと綺麗ですね" },
+      "もみじ狩り" => { effect_type: "add_nature", effect_data: "leaves", message: "もみじが舞うと綺麗ですね" },
       "赤とんぼ" => { effect_type: "add_nature", effect_data: "dragonfly", message: "秋といえば赤とんぼですね" },
       "とんぼ" => { effect_type: "add_nature", effect_data: "dragonfly", message: "秋といえば赤とんぼですね" },
       "トンボ" => { effect_type: "add_nature", effect_data: "dragonfly", message: "秋といえば赤とんぼですね" },
@@ -107,6 +108,10 @@ class PagesController < ApplicationController
       "さつまいも" => { effect_type: "add_nature", effect_data: "sweetpotato", message: "さつまいも、おいしいよね" },
       "やきいも" => { effect_type: "add_nature", effect_data: "sweetpotato", message: "さつまいも、焼いて食べるとホクホクだね！" },
       "リンドウ" => { effect_type: "add_nature", effect_data: "gentian", message: "よく知ってましたね！リンドウも秋の花なんです" },
+      "カエデ" => { effect_type: "add_nature", effect_data: "maple", message: "カエデの深い赤が美しいですね" },
+      "楓" => { effect_type: "add_nature", effect_data: "maple", message: "楓の深い赤が美しいですね" },
+      "イチョウ" => { effect_type: "add_nature", effect_data: "ginkgo", message: "遠くでイチョウの木が黄金に輝いている" },
+      "銀杏" => { effect_type: "add_nature", effect_data: "ginkgo", message: "イチョウからとれる銀杏の香りは強烈ですね！" },
     }
 
     autumn_data[word]
