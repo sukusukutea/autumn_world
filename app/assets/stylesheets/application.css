@@ -218,18 +218,50 @@ body {
     z-index: 5;
   }
 
-  &.grandma-layer {
+  &.grass-layer {
     top: 42.86%;
     left: 0;
     height: 57.14%;
     z-index: 6;
+    display: none;
+  }
+
+  &.apple-layer {
+    top: 42.86%;
+    left: 0;
+    height: 57.14%;
+    z-index: 7;
+    display: none;
+  }
+
+  &.fire-layer {
+    top: 42.86%;
+    left: 0;
+    height: 57.14%;
+    z-index: 8;
+    display: none;
+  }
+
+  &.grandma-layer {
+    top: 42.86%;
+    left: 0;
+    height: 57.14%;
+    z-index: 9;
+  }
+
+  &.fish-layer {
+    top: 42.86%;
+    left: 0;
+    height: 57.14%;
+    z-index: 10;
+    display: none;
   }
 
   &.persimmon-layer {
     top: 0;
     left: 0;
     height: 57.14%;
-    z-index: 7;
+    z-index: 11;
     display: none;
   }
 }

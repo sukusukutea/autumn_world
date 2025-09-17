@@ -77,6 +77,15 @@ class PagesController < ApplicationController
       "肌寒い" => { effect_type: "grandma_style", effect_data: "autumn", message: "おばあちゃんは秋の装いにしました" },
       "涼しい" => { effect_type: "grandma_style", effect_data: "autumn", message: "おばあちゃんは秋の装いにしました" },
       "柿" => { effect_type: "add_fruit", effect_data: "persimmon", message: "柿が鈴なりに実りました" },
+      "ススキ" => { effect_type: "add_nature", effect_data: "grass", message: "遠くにススキ畑が広がりました" },
+      "すすき" => { effect_type: "add_nature", effect_data: "grass", message: "遠くにススキ畑が広がりました" },
+      "りんご" => { effect_type: "add_fruit", effect_data: "apple", message: "りんごの木が生えました" },
+      "林檎" => { effect_type: "add_fruit", effect_data: "apple", message: "りんごの木が生えました" },
+      "リンゴ" => { effect_type: "add_fruit", effect_data: "apple", message: "りんごの木が生えました" },
+      "焚き火" => { effect_type: "add_nature", effect_data: "fire", message: "おばあちゃん「あったかいねえ」" },
+      "たき火" => { effect_type: "add_nature", effect_data: "fire", message: "おばあちゃん「あったかいねえ」" },
+      "秋刀魚" => { effect_type: "add_nature", effect_data: "fish", message: "秋刀魚の焼ける匂いがしてきた" },
+      "さんま" => { effect_type: "add_nature", effect_data: "fish", message: "秋刀魚の焼ける匂いがしてきた" }
     }
 
     autumn_data[word]

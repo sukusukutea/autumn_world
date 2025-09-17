@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["sky", "trees", "ground", "message", "wordInput", "cloud", "mountain", "grandma", "persimmon"]
+  static targets = ["sky", "trees", "ground", "message", "wordInput", "cloud", "mountain", "grandma", "persimmon", "grass", "apple", "fire", "fish"]
   static values = { 
     summerSky: String,
     autumnSky: String,
@@ -16,6 +16,10 @@ export default class extends Controller {
     summerGrandma: String,
     autumnGrandma: String,
     persimmonImage: String,
+    grassImage: String,
+    appleImage: String,
+    fireImage: String,
+    fishImage: String
   }
 
   connect() {
@@ -99,14 +103,18 @@ export default class extends Controller {
     }
   }
 
+  //初期画面にはない追加画像
   addElement(elementType) {
     console.log(`${elementType}を追加開始...`)
   
     const elementConfig = {
       persimmon: { target: this.persimmonTarget, name: "柿" },
       apple: { target: this.appleTarget, name: "りんご" },
+      grass: { target: this.grassTarget, name: "ススキ" },
       maple: { target: this.mapleTarget, name: "もみじ" },
-      leaves: { target: this.leavesTarget, name: "落ち葉" }
+      leaves: { target: this.leavesTarget, name: "落ち葉" },
+      fire: { target: this.fireTarget, name: "焚き火" },
+      fish: { target: this.fishTarget, name: "魚" }
     }
   
     const config = elementConfig[elementType]
@@ -138,7 +146,10 @@ export default class extends Controller {
       persimmon: { target: this.persimmonTarget, name: "柿" },
       apple: { target: this.appleTarget, name: "りんご" },
       maple: { target: this.mapleTarget, name: "もみじ" },
-      leaves: { target: this.leavesTarget, name: "落ち葉" }
+      leaves: { target: this.leavesTarget, name: "落ち葉" },
+      grass: { target: this.grassTarget, name: "ススキ" },
+      fire: { target: this.fireTarget, name: "焚き火" },
+      fish: { target: this.fishTarget, name: "魚" }
       }
   
       const config = elementConfig[elementType]
@@ -185,7 +196,7 @@ export default class extends Controller {
           this.changeSkyColor("autumn")
         }
         break
-      case "cloud_color":
+      case "cloud_style":
         if (effect.effect_data === "autumn") {
           this.changeCloudStyle("autumn")
         }
@@ -212,6 +223,12 @@ export default class extends Controller {
       this.addElement("maple")
       } else if (effect.effect_data === "leaves") {
         this.addElement("leaves")
+      } else if (effect.effect_data === "grass") {
+        this.addElement("grass")
+      } else if (effect.effect_data === "fire") {
+        this.addElement("fire")
+      } else if (effect.effect_data === "fish") {
+        this.addElement("fish")
       }
       break
       default:
@@ -274,6 +291,10 @@ export default class extends Controller {
         this.mountainTarget.src = this.summerMountainValue
         this.grandmaTarget.src = this.summerGrandmaValue
         this.removeElement("persimmon")
+        this.removeElement("grass")
+        this.removeElement("fire")
+        this.removeElement("apple")
+        this.removeElement("fish")
         
         // フィルターをリセット
         this.skyTarget.style.filter = "none"
