@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["sky", "trees", "ground", "message", "wordInput", "cloud", "mountain", "grandma", "persimmon", "grass", "apple", "fire", "fish"]
+  static targets = ["sky", "trees", "ground", "message", "wordInput", "cloud", "mountain", "grandma", "persimmon", "grass", "apple", "fire", "fish", "cosmos", "cat", "dog", "dango", "muscle", "book", "osmanthus", "dragonfly", "leaves", "dahlia", "chestnut", "acorns", "sweetpotato", "gentian"]
   static values = { 
     summerSky: String,
     autumnSky: String,
@@ -19,7 +19,21 @@ export default class extends Controller {
     grassImage: String,
     appleImage: String,
     fireImage: String,
-    fishImage: String
+    fishImage: String,
+    cosmosImage: String,
+    catImage: String,
+    dogImage: String,
+    dangoImage: String,
+    muscleImage: String,
+    bookImage: String,
+    osmanthusImage: String,
+    dragonflyImage: String,
+    leavesImage: String,
+    acornsImage: String,
+    dahliaImage: String,
+    chestnutImage: String,
+    sweetpotatoImage: String,
+    gentianImage: String
   }
 
   connect() {
@@ -114,7 +128,21 @@ export default class extends Controller {
       maple: { target: this.mapleTarget, name: "もみじ" },
       leaves: { target: this.leavesTarget, name: "落ち葉" },
       fire: { target: this.fireTarget, name: "焚き火" },
-      fish: { target: this.fishTarget, name: "魚" }
+      fish: { target: this.fishTarget, name: "魚" },
+      cosmos: { target: this.cosmosTarget, name: "コスモス" },
+      cat: { target: this.catTarget, name: "猫" },
+      dog: { target: this.dogTarget, name: "犬" },
+      book: { target: this.bookTarget, name: "読書" },
+      muscle: { target: this.muscleTarget, name: "筋トレ" },
+      dango: { target: this.dangoTarget, name: "お月見" },
+      osmanthus: { target: this.osmanthusTarget, name: "金木犀" },
+      dragonfly: { target: this.dragonflyTarget, name: "赤とんぼ" },
+      leaves: { target: this.leavesTarget, name: "落ち葉" },
+      dahlia: { target: this.dahliaTarget, name: "ダリア" },
+      chestnut: { target: this.chestnutTarget, name: "栗" },
+      acorns: { target: this.acornsTarget, name: "どんぐり" },
+      sweetpotato: { target: this.sweetpotatoTarget, name: "さつまいも" },
+      gentian: { target: this.gentianTarget, name: "さつまいも" }
     }
   
     const config = elementConfig[elementType]
@@ -149,27 +177,41 @@ export default class extends Controller {
       leaves: { target: this.leavesTarget, name: "落ち葉" },
       grass: { target: this.grassTarget, name: "ススキ" },
       fire: { target: this.fireTarget, name: "焚き火" },
-      fish: { target: this.fishTarget, name: "魚" }
-      }
+      fish: { target: this.fishTarget, name: "魚" },
+      cosmos: { target: this.cosmosTarget, name: "コスモス" },
+      cat: { target: this.catTarget, name: "猫" },
+      dog: { target: this.dogTarget, name: "犬" },
+      book: { target: this.bookTarget, name: "読書" },
+      muscle: { target: this.muscleTarget, name: "筋トレ" },
+      dango: { target: this.dangoTarget, name: "お月見" },
+      osmanthus: { target: this.osmanthusTarget, name: "金木犀" },
+      dragonfly: { target: this.dragonflyTarget, name: "赤とんぼ" },
+      leaves: { target: this.leavesTarget, name: "落ち葉" },
+      dahlia: { target: this.dahliaTarget, name: "ダリア" },
+      chestnut: { target: this.chestnutTarget, name: "栗" },
+      acorns: { target: this.acornsTarget, name: "どんぐり" },
+      sweetpotato: { target: this.sweetpotatoTarget, name: "さつまいも" },
+      gentian: { target: this.gentianTarget, name: "リンドウ" },
+    }
   
-      const config = elementConfig[elementType]
-      if (!config) return
+    const config = elementConfig[elementType]
+    if (!config) return
   
-      const target = config.target
-      if (!target) return
+    const target = config.target
+    if (!target) return
 
-      // 🔧 親要素（レイヤー）を非表示にする
-      const parentLayer = target.parentElement
-      if (parentLayer && parentLayer.classList.contains('layer')) {
+    // 🔧 親要素（レイヤー）を非表示にする
+    const parentLayer = target.parentElement
+    if (parentLayer && parentLayer.classList.contains('layer')) {
       parentLayer.style.display = "none"
       console.log(`${config.name}の親レイヤーを非表示にしました`)
-      }
-  
-      // シンプルに非表示にする
-      target.style.display = "none"
-  
-      console.log(`${config.name}の削除完了`)
     }
+  
+    // シンプルに非表示にする
+    target.style.display = "none"
+  
+    console.log(`${config.name}の削除完了`)
+  }
 
   // エフェクト適用処理
   applyEffect(effect) {
@@ -229,6 +271,34 @@ export default class extends Controller {
         this.addElement("fire")
       } else if (effect.effect_data === "fish") {
         this.addElement("fish")
+      } else if (effect.effect_data === "cosmos") {
+        this.addElement("cosmos")
+      } else if (effect.effect_data === "cat") {
+        this.addElement("cat")
+      } else if (effect.effect_data === "dog") {
+        this.addElement("dog")
+      } else if (effect.effect_data === "book") {
+        this.addElement("book")
+      } else if (effect.effect_data === "dango") {
+        this.addElement("dango")
+      } else if (effect.effect_data === "muscle") {
+        this.addElement("muscle")
+      } else if (effect.effect_data === "osmanthus") {
+        this.addElement("osmanthus")
+      } else if (effect.effect_data === "dragonfly") {
+        this.addElement("dragonfly")
+      } else if (effect.effect_data === "leaves") {
+        this.addElement("leaves")
+      } else if (effect.effect_data === "acorns") {
+        this.addElement("acorns")
+      } else if (effect.effect_data === "dahlia") {
+        this.addElement("dahlia")
+      } else if (effect.effect_data === "chestnut") {
+        this.addElement("chestnut")
+      } else if (effect.effect_data === "sweetpotato") {
+        this.addElement("sweetpotato")
+      } else if (effect.effect_data === "gentian") {
+        this.addElement("gentian")
       }
       break
       default:
@@ -295,6 +365,20 @@ export default class extends Controller {
         this.removeElement("fire")
         this.removeElement("apple")
         this.removeElement("fish")
+        this.removeElement("cosmos")
+        this.removeElement("cat")
+        this.removeElement("dog")
+        this.removeElement("dango")
+        this.removeElement("book")
+        this.removeElement("muscle")
+        this.removeElement("osmanthus")
+        this.removeElement("leaves")
+        this.removeElement("dragonfly")
+        this.removeElement("dahlia")
+        this.removeElement("acorns")
+        this.removeElement("chestnut")
+        this.removeElement("sweetpotato")
+        this.removeElement("gentian")
         
         // フィルターをリセット
         this.skyTarget.style.filter = "none"

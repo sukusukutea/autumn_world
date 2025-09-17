@@ -68,6 +68,7 @@ class PagesController < ApplicationController
       },
 
       "秋空" => { effect_type: "sky_color", effect_data: "autumn", message: "空が秋の澄んだ青色に染まりました" },
+      "秋の空" => { effect_type: "sky_color", effect_data: "autumn", message: "空が秋の澄んだ青色に染まりました" },
       "秋晴れ" => { effect_type: "sky_color", effect_data: "autumn", message: "空が秋の澄んだ青色に染まりました" },
       "枯れ草" => { effect_type: "ground_color", effect_data: "autumn", message: "芝生が秋に色付きました" },
       "秋雲" => { effect_type: "cloud_style", effect_data: "autumn", message: "うろこ雲が浮かびました" },
@@ -85,7 +86,27 @@ class PagesController < ApplicationController
       "焚き火" => { effect_type: "add_nature", effect_data: "fire", message: "おばあちゃん「あったかいねえ」" },
       "たき火" => { effect_type: "add_nature", effect_data: "fire", message: "おばあちゃん「あったかいねえ」" },
       "秋刀魚" => { effect_type: "add_nature", effect_data: "fish", message: "秋刀魚の焼ける匂いがしてきた" },
-      "さんま" => { effect_type: "add_nature", effect_data: "fish", message: "秋刀魚の焼ける匂いがしてきた" }
+      "さんま" => { effect_type: "add_nature", effect_data: "fish", message: "秋刀魚の焼ける匂いがしてきた" },
+      "コスモス" => { effect_type: "add_nature", effect_data: "cosmos", message: "コスモスが顔をのぞかせました" },
+      "猫" => { effect_type: "add_nature", effect_data: "cat", message: "おばあちゃん「あらミーちゃんきたの」" },
+      "犬" => { effect_type: "add_nature", effect_data: "dog", message: "おばあちゃん「あらあらワン助が楽しそう」" },
+      "お月見" => { effect_type: "add_nature", effect_data: "dango", message: "今晩のお月見の団子を用意しました" },
+      "読書" => { effect_type: "add_nature", effect_data: "book", message: "おばあちゃんは読みかけの本を用意した" },
+      "筋トレ" => { effect_type: "add_nature", effect_data: "muscle", message: "遠くで筋トレしている人がいる、秋ですね" },
+      "スポーツ" => { effect_type: "add_nature", effect_data: "muscle", message: "筋トレはスポーツの一種でしょうか" },
+      "運動" => { effect_type: "add_nature", effect_data: "muscle", message: "運動といえば筋トレですね、秋ですね" },
+      "金木犀" => { effect_type: "add_nature", effect_data: "osmanthus", message: "金木犀の花が咲きました" },
+      "落ち葉" => { effect_type: "add_nature", effect_data: "leaves", message: "落ち葉が舞うと綺麗ですね" },
+      "もみじ" => { effect_type: "add_nature", effect_data: "leaves", message: "もみじが舞うと綺麗ですね" },
+      "赤とんぼ" => { effect_type: "add_nature", effect_data: "dragonfly", message: "秋といえば赤とんぼですね" },
+      "とんぼ" => { effect_type: "add_nature", effect_data: "dragonfly", message: "秋といえば赤とんぼですね" },
+      "トンボ" => { effect_type: "add_nature", effect_data: "dragonfly", message: "秋といえば赤とんぼですね" },
+      "ダリア" => { effect_type: "add_nature", effect_data: "dahlia", message: "ダリアは可憐で見応えがあります" },
+      "栗" => { effect_type: "add_nature", effect_data: "chestnut", message: "栗の季節ですね！" },
+      "どんぐり" => { effect_type: "add_nature", effect_data: "acorns", message: "おや、リスがどんぐり持って出てきましたよ" },
+      "さつまいも" => { effect_type: "add_nature", effect_data: "sweetpotato", message: "さつまいも、おいしいよね" },
+      "やきいも" => { effect_type: "add_nature", effect_data: "sweetpotato", message: "さつまいも、焼いて食べるとホクホクだね！" },
+      "リンドウ" => { effect_type: "add_nature", effect_data: "gentian", message: "よく知ってましたね！リンドウも秋の花なんです" },
     }
 
     autumn_data[word]

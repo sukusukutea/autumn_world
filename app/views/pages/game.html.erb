@@ -29,7 +29,20 @@
        data-game-grass-image-value="<%= asset_path('autumn/grass_autumn.png') %>"
        data-game-apple-image-value="<%= asset_path('autumn/apple_autumn.png') %>"
        data-game-fire-image-value="<%= asset_path('autumn/fire_autumn.png') %>"
-       data-game-fish-image-value="<%= asset_path('autumn/fish_autumn.png') %>">
+       data-game-fish-image-value="<%= asset_path('autumn/fish_autumn.png') %>"
+       data-game-cosmos-image-value="<%= asset_path('autumn/cosmos_autumn.png') %>"
+       data-game-cat-image-value="<%= asset_path('autumn/cat_autumn.png') %>"
+       data-game-dog-image-value="<%= asset_path('autumn/dog_autumn.png') %>"
+       data-game-dango-image-value="<%= asset_path('autumn/dango_autumn.png') %>"
+       data-game-muscle-image-value="<%= asset_path('autumn/muscle_autumn.png') %>"
+       data-game-book-image-value="<%= asset_path('autumn/book_autumn.png') %>"
+       data-game-osmanthus-image-value="<%= asset_path('autumn/osmanthus_autumn.png') %>"
+       data-game-dragonfly-image-value="<%= asset_path('autumn/dragonfly_autumn.png') %>"
+       data-game-leaves-image-value="<%= asset_path('autumn/leaves_autumn.png') %>"
+       data-game-dahlia-image-value="<%= asset_path('autumn/dahlia_autumn.png') %>"
+       data-game-chestnut-image-value="<%= asset_path('autumn/chestnut_autumn.png') %>"
+       data-game-sweetpotato-image-value="<%= asset_path('autumn/sweetpotato_autumn.png') %>"
+       data-game-gentian-image-value="<%= asset_path('autumn/gentian_autumn.png') %>">
     
     <div class="game-field">
       <!-- 空レイヤー -->
@@ -119,12 +132,124 @@
             id: "fish-image",
             data: { game_target: "fish" }) %>
       </div>
+
+      <!-- コスモスレイヤー -->
+      <div class="layer cosmos-layer" style="display: none;">
+        <%= image_tag('autumn/cosmos_autumn.png',
+            class: "layer-image",
+            id: "cosmos-image",
+            data: { game_target: "cosmos" }) %>
+      </div>
+
+      <!-- 猫レイヤー -->
+      <div class="layer cat-layer" style="display: none;">
+        <%= image_tag('autumn/cat_autumn.png',
+            class: "layer-image",
+            id: "cat-image",
+            data: { game_target: "cat" }) %>
+      </div>
+
+      <!-- 犬レイヤー -->
+      <div class="layer dog-layer" style="display: none;">
+        <%= image_tag('autumn/dog_autumn.png',
+            class: "layer-image",
+            id: "dog-image",
+            data: { game_target: "dog" }) %>
+      </div>
+
+      <!-- 団子レイヤー -->
+      <div class="layer dango-layer" style="display: none;">
+        <%= image_tag('autumn/dango_autumn.png',
+            class: "layer-image",
+            id: "dango-image",
+            data: { game_target: "dango" }) %>
+      </div>
+
+      <!-- 読書レイヤー -->
+      <div class="layer book-layer" style="display: none;">
+        <%= image_tag('autumn/book_autumn.png',
+            class: "layer-image",
+            id: "book-image",
+            data: { game_target: "book" }) %>
+      </div>
+
+      <!-- 筋トレレイヤー -->
+      <div class="layer muscle-layer" style="display: none;">
+        <%= image_tag('autumn/muscle_autumn.png',
+            class: "layer-image",
+            id: "muscle-image",
+            data: { game_target: "muscle" }) %>
+      </div>
+
+      <!-- 金木犀レイヤー -->
+      <div class="layer osmanthus-layer" style="display: none;">
+        <%= image_tag('autumn/osmanthus_autumn.png',
+            class: "layer-image",
+            id: "osmanthus-image",
+            data: { game_target: "osmanthus" }) %>
+      </div>
+
+      <!-- 落ち葉レイヤー -->
+      <div class="layer leaves-layer" style="display: none;">
+        <%= image_tag('autumn/leaves_autumn.png',
+            class: "layer-image",
+            id: "leaves-image",
+            data: { game_target: "leaves" }) %>
+      </div>
+
+      <!-- トンボレイヤー -->
+      <div class="layer dragonfly-layer" style="display: none;">
+        <%= image_tag('autumn/dragonfly_autumn.png',
+            class: "layer-image",
+            id: "dragonfly-image",
+            data: { game_target: "dragonfly" }) %>
+      </div>
+
+      <!-- ダリアレイヤー -->
+      <div class="layer dahlia-layer" style="display: none;">
+        <%= image_tag('autumn/dahlia_autumn.png',
+            class: "layer-image",
+            id: "dahlia-image",
+            data: { game_target: "dahlia" }) %>
+      </div>
+
+      <!-- どんぐりレイヤー -->
+      <div class="layer acorns-layer" style="display: none;">
+        <%= image_tag('autumn/acorns_autumn.png',
+            class: "layer-image",
+            id: "acorns-image",
+            data: { game_target: "acorns" }) %>
+      </div>
+
+      <!-- 栗レイヤー -->
+      <div class="layer chestnut-layer" style="display: none;">
+        <%= image_tag('autumn/chestnut_autumn.png',
+            class: "layer-image",
+            id: "chestnut-image",
+            data: { game_target: "chestnut" }) %>
+      </div>
+
+      <!-- さつまいもレイヤー -->
+      <div class="layer sweetpotato-layer" style="display: none;">
+        <%= image_tag('autumn/sweetpotato_autumn.png',
+            class: "layer-image",
+            id: "sweetpotato-image",
+            data: { game_target: "sweetpotato" }) %>
+      </div>
+
+      <!-- リンドウレイヤー -->
+      <div class="layer gentian-layer" style="display: none;">
+        <%= image_tag('autumn/gentian_autumn.png',
+            class: "layer-image",
+            id: "gentian-image",
+            data: { game_target: "gentian" }) %>
+      </div>
     </div>
     
     <!-- メッセージ表示エリア -->
     <div class="message-area" data-game-target="message"></div>
     
-    <!-- ✨ 入力エリア（form_withを使わない版） -->
+    <!--入力エリア（form_withを使わない版） -->
     <div class="input-area">
       <div class="word-form">
         <input type="text" 
