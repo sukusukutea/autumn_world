@@ -43,7 +43,7 @@ export default class extends Controller {
 
   changeElementImage(elementType, colorType) {
     const config = {
-      tree: { target: this.treesTarget, autumnSrc: this.autumnTreesValue },
+      trees: { target: this.treesTarget, autumnSrc: this.autumnTreesValue },
       mountain: { target: this.mountainTarget, autumnSrc: this.autumnMountainValue },
       ground: { target: this.groundTarget, autumnSrc: this.autumnGroundValue },
       sky: { target: this.skyTarget, autumnSrc: this.autumnSkyValue },
@@ -225,8 +225,8 @@ export default class extends Controller {
       console.log("複数エフェクト実行:", effect.effect_data)
 
       effect.effect_data.forEach((effectType) => {
-        if (effectType === "tree_color") {
-          this.changeTreeColor("autumn")
+        if (effectType === "trees_color") {
+          this.changeTreesColor("autumn")
         }
         if (effectType === "mountain_color") {
           this.changeMountainColor("autumn")
@@ -312,8 +312,8 @@ export default class extends Controller {
   }
 
   // 木の色変更
-  changeTreeColor(colorType) {
-    this.changeElementImage('tree', colorType)
+  changeTreesColor(colorType) {
+    this.changeElementImage('trees', colorType)
   }
 
     // 山の色変更

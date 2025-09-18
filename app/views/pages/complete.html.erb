@@ -1,44 +1,254 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>完成した秋の世界</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>秋の世界完成発表</title>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+  
+  <!-- html2canvas ライブラリ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
-<body>
-  <div class="complete-page">
-    <h1>あなたが作った秋の世界</h1>
+
+<body class="game-page" data-controller="complete">
+  <!-- 既存のgame-pageクラスを使用 -->
+  
+  <div class="complete-container">
     
-    <div class="completed-landscape">
-      <!-- 完成した風景を表示 -->
-      <div class="layer">
-        <%= image_tag('summer/sky_summer.png', class: "layer-image") %>
+    <!-- 完成おめでとうメッセージ -->
+    <div class="completion-screen">
+      <div class="completion-header">
+        <h1>🍂 秋の世界 完成発表！</h1>
+        <p>あなたが描いた秋の風景の完成度をお見せします✨</p>
       </div>
-      
-      <% if @landscape_state["tree_color"] == "autumn" %>
-        <div class="layer">
-          <%= image_tag('autumn/trees_autumn.png', class: "layer-image") %>
+
+      <div class="achievement-showcase">
+        <div class="achievement-circle" style="border-color: <%= @achievement_level[:color] %>;">
+        <div class="percentage-display">
+          <span class="percentage-number"><%= @achievement_percentage %></span>
+          <span class="percentage-symbol">%</span>
         </div>
-      <% else %>
-        <div class="layer">
-          <%= image_tag('summer/trees_summer.png', class: "layer-image") %>
+        <div class="achievement-subtitle">完成度</div>
+      </div>
+
+      <div class="achievement-badge">
+        <div class="level-icon"><%= @achievement_level[:level] %></div>
+        <div class="level-info">
+          <h2 class="level-title"><%= @achievement_level[:title] %></h2>
+          <p class="level-message"><%= @achievement_level[:message] %></p>
         </div>
-      <% end %>
-      
-      <div class="layer">
-        <%= image_tag('summer/ground_summer.png', class: "layer-image") %>
+      </div>
+    </div>
+
+    <!-- 使用した言葉の表示 -->
+    <div class="used-words" style="margin-bottom: 30px;">
+      <h3 style="font-size: 1.5rem; margin-bottom: 15px;">使用した言葉:</h3>
+      <div class="word-tags" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+        <% @used_words.each do |word| %>
+        <span class="word-tag" style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; font-weight: bold;"><%= word %></span>
+        <% end %>
       </div>
     </div>
     
-    <div class="used-words">
-      <h3>使った言葉</h3>
-      <% @used_words.each do |word| %>
-        <span class="word-tag"><%= word %></span>
-      <% end %>
+    <!-- キャプチャ対象エリア（既存のgame-fieldクラスを使用） -->
+    <div class="capture-area" data-complete-target="captureArea">
+      <div class="game-field">
+        
+        <!-- 基本レイヤー（既存のlayerクラスを使用） -->
+        <div class="layer sky-layer">
+          <% if @landscape_state['sky_color_autumn'] %>
+            <img class="layer-image" src="<%= asset_path('autumn/sky_autumn.png') %>" alt="空">
+          <% else %>
+            <img class="layer-image" src="<%= asset_path('summer/sky_summer.png') %>" alt="空">
+          <% end %>
+        </div>
+        
+        <div class="layer cloud-layer">
+          <% if @landscape_state['cloud_style_autumn'] %>
+          <img class="layer-image" src="<%= asset_path('autumn/cloud_autumn.png') %>" alt="雲">
+          <% else %>
+            <img class="layer-image" src="<%= asset_path('summer/cloud_summer.png') %>" alt="雲">
+          <% end %>
+        </div>
+        
+        <div class="layer mountain-layer">
+          <% if @landscape_state['mountain_color_autumn'] %>
+          <img class="layer-image" src="<%= asset_path('autumn/mountain_autumn.png') %>" alt="山">
+          <% else %>
+            <img class="layer-image" src="<%= asset_path('summer/mountain_summer.png') %>" alt="山">
+          <% end %>
+        </div>
+        
+        <div class="layer ground-layer">
+          <% if @landscape_state['ground_color_autumn'] %>
+          <img class="layer-image" src="<%= asset_path('autumn/ground_autumn.png') %>" alt="地面">
+          <% else %>
+            <img class="layer-image" src="<%= asset_path('summer/ground_summer.png') %>" alt="地面">
+          <% end %>
+        </div>
+        
+        <div class="layer trees-layer">
+          <% if @landscape_state['trees_color_autumn'] %>
+          <img class="layer-image" src="<%= asset_path('autumn/trees_autumn.png') %>" alt="木">
+          <% else %>
+            <img class="layer-image" src="<%= asset_path('summer/trees_summer.png') %>" alt="木">
+          <% end %>
+        </div>
+
+        <div class="layer grandma-layer">
+          <% if @landscape_state['grandma_style_autumn'] %>
+          <img class="layer-image" src="<%= asset_path('autumn/grandma_autumn.png') %>" alt="おばあちゃん">
+          <% else %>
+            <img class="layer-image" src="<%= asset_path('summer/grandma_summer.png') %>" alt="おばあちゃん">
+          <% end %>
+        </div>
+        
+        <!-- 条件付きレイヤー（landscape_stateに基づいて表示） -->
+        <% if @landscape_state['maple'] %>
+          <div class="layer maple-layer" style="display: block;">
+            <img class="layer-image" src="<%= asset_path('autumn/maple_autumn.png') %>" alt="カエデ">
+          </div>
+        <% end %>
+        
+        <% if @landscape_state['ginkgo'] %>
+          <div class="layer ginkgo-layer" style="display: block;">
+            <img class="layer-image" src="<%= asset_path('autumn/ginkgo_autumn.png') %>" alt="イチョウ">
+          </div>
+        <% end %>
+        
+        <% if @landscape_state['grass'] %>
+          <div class="layer grass-layer" style="display: block;">
+            <img class="layer-image" src="<%= asset_path('autumn/grass_autumn.png') %>" alt="ススキ">
+          </div>
+        <% end %>
+        
+        <% if @landscape_state['osmanthus'] %>
+          <div class="layer osmanthus-layer" style="display: block;">
+            <img class="layer-image" src="<%= asset_path('autumn/osmanthus_autumn.png') %>" alt="金木犀">
+          </div>
+        <% end %>
+        
+        <% if @landscape_state['muscle'] %>
+          <div class="layer muscle-layer" style="display: block;">
+            <img class="layer-image" src="<%= asset_path('autumn/muscle_autumn.png') %>" alt="筋肉">
+          </div>
+        <% end %>
+        
+        <% if @landscape_state['fire'] %>
+          <div class="layer fire-layer" style="display: block;">
+            <img class="layer-image" src="<%= asset_path('autumn/fire_autumn.png') %>" alt="焚き火">
+          </div>
+        <% end %>
+        
+        <% if @landscape_state['chestnut'] %>
+          <div class="layer chestnut-layer" style="display: block;">
+            <img class="layer-image" src="<%= asset_path('autumn/chestnut_autumn.png') %>" alt="栗">
+          </div>
+        <% end %>
+        
+        <% if @landscape_state['sweetpotato'] %>
+          <div class="layer sweetpotato-layer" style="display: block;">
+            <img class="layer-image" src="<%= asset_path('autumn/sweetpotato_autumn.png') %>" alt="さつまいも">
+          </div>
+        <% end %>
+        
+        <% if @landscape_state['dango'] %>
+          <div class="layer dango-layer" style="display: block;">
+            <img class="layer-image" src="<%= asset_path('autumn/dango_autumn.png') %>" alt="だんご">
+          </div>
+        <% end %>
+
+        <% if @landscape_state['book'] %>
+          <div class="layer book-layer" style="display: block;">
+            <img class="layer-image" src="<%= asset_path('autumn/book_autumn.png') %>" alt="読書">
+          </div>
+        <% end %>
+        
+        <% if @landscape_state['acorns'] %>
+          <div class="layer acorns-layer" style="display: block;">
+            <img class="layer-image" src="<%= asset_path('autumn/acorns_autumn.png') %>" alt="どんぐり">
+          </div>
+        <% end %>
+        
+        <% if @landscape_state['apple'] %>
+          <div class="layer apple-layer" style="display: block;">
+            <img class="layer-image" src="<%= asset_path('autumn/apple_autumn.png') %>" alt="りんご">
+          </div>
+        <% end %>
+        
+        <% if @landscape_state['cat'] %>
+          <div class="layer cat-layer" style="display: block;">
+            <img class="layer-image" src="<%= asset_path('autumn/cat_autumn.png') %>" alt="猫">
+          </div>
+        <% end %>
+        
+        <% if @landscape_state['dog'] %>
+          <div class="layer dog-layer" style="display: block;">
+            <img class="layer-image" src="<%= asset_path('autumn/dog_autumn.png') %>" alt="犬">
+          </div>
+        <% end %>
+        
+        <% if @landscape_state['fish'] %>
+          <div class="layer fish-layer" style="display: block;">
+            <img class="layer-image" src="<%= asset_path('autumn/fish_autumn.png') %>" alt="魚">
+          </div>
+        <% end %>
+        
+        <% if @landscape_state['persimmon'] %>
+          <div class="layer persimmon-layer" style="display: block;">
+            <img class="layer-image" src="<%= asset_path('autumn/persimmon.png') %>" alt="柿">
+          </div>
+        <% end %>
+        
+        <% if @landscape_state['cosmos'] %>
+          <div class="layer cosmos-layer" style="display: block;">
+            <img class="layer-image" src="<%= asset_path('autumn/cosmos_autumn.png') %>" alt="コスモス">
+          </div>
+        <% end %>
+        
+        <% if @landscape_state['dragonfly'] %>
+          <div class="layer dragonfly-layer" style="display: block;">
+            <img class="layer-image" src="<%= asset_path('autumn/dragonfly_autumn.png') %>" alt="とんぼ">
+          </div>
+        <% end %>
+        
+        <% if @landscape_state['leaves'] %>
+          <div class="layer leaves-layer" style="display: block;">
+            <img class="layer-image" src="<%= asset_path('autumn/leaves_autumn.png') %>" alt="落ち葉">
+          </div>
+        <% end %>
+        
+        <% if @landscape_state['dahlia'] %>
+          <div class="layer dahlia-layer" style="display: block;">
+            <img class="layer-image" src="<%= asset_path('autumn/dahlia_autumn.png') %>" alt="ダリア">
+          </div>
+        <% end %>
+        
+        <% if @landscape_state['gentian'] %>
+          <div class="layer gentian-layer" style="display: block;">
+            <img class="layer-image" src="<%= asset_path('autumn/gentian_autumn.png') %>" alt="リンドウ">
+          </div>
+        <% end %>
+        
+        <!-- 完成記念のウォーターマーク -->
+        <div class="watermark" style="position: absolute; bottom: 20px; right: 20px; background: rgba(255,255,255,0.8); padding: 10px 15px; border-radius: 10px; font-size: 14px; text-align: center; z-index: 100;">
+          <p style="margin: 0; font-weight: bold; color: #333;">My Autumn World</p>
+          <p style="margin: 5px 0 0 0; color: #666;"><%= Date.current.strftime("%Y.%m.%d") %></p>
+        </div>
+      </div>
     </div>
-    
-    <div class="actions">
-      <%= link_to "もう一度作る", game_path, class: "btn btn-primary" %>
-    
+
+    <div class="button-group" style="justify-content: center; margin-top: 10px">
+      <%= link_to "もう一度作る", reset_world_path(redirect_to: 'game'), class: "complete-btn", style: "text-decoration: none;" %>
+      <%= link_to "トップに戻る", root_path, class: "reset-btn", style: "text-decoration: none;" %>
+
+      <button onclick="captureAndShare()" class="share-btn" style="background: linear-gradient(45deg, #1DA1F2, #0d8bd9); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 14px; transition: transform 0.2s; text-decoration: none;">
+      X 画面をシェア
+     </button>
+    </div>
+  </div>
+</body>
+</html>
