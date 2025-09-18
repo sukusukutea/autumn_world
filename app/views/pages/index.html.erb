@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>秋の世界を育てる</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+</head>
+
+<body class="top-page">
+  <div class="top-container">
+    <div class="header">
+      <h1 class="title">🍂 夏の世界を秋に育てる</h1>
+      <p class="subtitle">秋の言葉で、季節を育ててみましょう</p>
+    </div>
+
+    <div class="main-content">
+      <div class="description">
+        <p>「秋といえば...」という言葉で</P>
+        <p>夏の風景が少しずつ秋に変わっていきますよ</p>
+      </div>
+
+      <%= link_to game_path, class: "start-button" do %>
+        <span class="button-text">秋をはじめる</span>
+      <% end %>
+    </div>
+
+    <div class="footer">
+      <p>Made for RUNTEQ ミニアプリWeek</p>
+    </div>
+  </div>
+</body>
+</html>

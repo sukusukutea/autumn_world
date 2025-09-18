@@ -1,4 +1,11 @@
-Rails.application.routes.draw do
+Rails.application.routes.draw do 
+  root 'pages#index'
+  get 'game', to: 'pages#game'
+  post 'input_word', to: 'pages#input_word'
+  post 'reset_world', to: 'pages#reset_world'
+  get 'reset_world', to: 'pages#reset_world'
+  get 'complete', to: 'pages#complete'
+  post 'generate_share_image', to:'pages#generate_share_image'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
