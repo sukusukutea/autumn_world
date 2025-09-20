@@ -50,12 +50,12 @@ class PagesController < ApplicationController
       }
     end
   end
-  
+
   def reset_world
     session[:used_words] = []
     session[:landscape_state] = {}
-  
-    if params[:redirect_to] == 'game'
+
+    if params[:redirect_to] == "game"
       redirect_to game_path
     else
       render json: {
@@ -70,10 +70,10 @@ class PagesController < ApplicationController
     @used_words = session[:used_words] || []
     @displayed_images_count = count_displayed_images
     @total_possible_images = 29
-  
+
     @achievement_percentage = calculate_image_achievement_percentage(@displayed_images_count, @total_possible_images)
     @achievement_level = determine_achievement_level(@achievement_percentage)
-    
+
     # 完成画面用に景色の状態を再構築
     build_complete_landscape_state
   end
@@ -83,37 +83,37 @@ class PagesController < ApplicationController
   def count_displayed_images
     displayed_count = 0
 
-    displayed_count += 1 if session[:landscape_state]&.dig('trees_color') == 'autumn'
-    displayed_count += 1 if session[:landscape_state]&.dig('mountain_color') == 'autumn'
-    displayed_count += 1 if session[:landscape_state]&.dig('sky_color') == 'autumn'
-    displayed_count += 1 if session[:landscape_state]&.dig('ground_color') == 'autumn'
-    displayed_count += 1 if session[:landscape_state]&.dig('cloud_style') == 'autumn'
-    displayed_count += 1 if session[:landscape_state]&.dig('grandma_style') == 'autumn'
+    displayed_count += 1 if session[:landscape_state]&.dig("trees_color") == "autumn"
+    displayed_count += 1 if session[:landscape_state]&.dig("mountain_color") == "autumn"
+    displayed_count += 1 if session[:landscape_state]&.dig("sky_color") == "autumn"
+    displayed_count += 1 if session[:landscape_state]&.dig("ground_color") == "autumn"
+    displayed_count += 1 if session[:landscape_state]&.dig("cloud_style") == "autumn"
+    displayed_count += 1 if session[:landscape_state]&.dig("grandma_style") == "autumn"
 
     image_elements = [
-      ['カエデ', '楓'],
-      ['イチョウ', '銀杏'], 
-      ['どんぐり'],
-      ['読書'],
-      ['りんご', 'リンゴ', '林檎'],
-      ['焚き火', 'たき火'],
-      ['栗'],
-      ['さつまいも', 'やきいも'],
-      ['金木犀'],
-      ['柿'],
-      ['ススキ', 'すすき'],
-      ['リンドウ'],
-      ['お月見'],
-      ['猫'],
-      ['犬'],
-      ['赤とんぼ', 'とんぼ', 'トンボ'],
-      ['コスモス'],
-      ['ダリア'],
-      ['秋刀魚', 'さんま'],
-      ['落ち葉', 'もみじ', 'もみじ狩り'],
-      ['筋トレ', 'スポーツ', '運動'],
-      ['ハロウィン', 'ハロウィーン'],
-      ['芸術']
+      [ "カエデ", "楓" ],
+      [ "イチョウ", "銀杏" ],
+      [ "どんぐり" ],
+      [ "読書" ],
+      [ "りんご", "リンゴ", "林檎" ],
+      [ "焚き火", "たき火" ],
+      [ "栗" ],
+      [ "さつまいも", "やきいも" ],
+      [ "金木犀" ],
+      [ "柿" ],
+      [ "ススキ", "すすき" ],
+      [ "リンドウ" ],
+      [ "お月見" ],
+      [ "猫" ],
+      [ "犬" ],
+      [ "赤とんぼ", "とんぼ", "トンボ" ],
+      [ "コスモス" ],
+      [ "ダリア" ],
+      [ "秋刀魚", "さんま" ],
+      [ "落ち葉", "もみじ", "もみじ狩り" ],
+      [ "筋トレ", "スポーツ", "運動" ],
+      [ "ハロウィン", "ハロウィーン" ],
+      [ "芸術" ]
     ]
 
     image_elements.each do |element_variations|
@@ -127,49 +127,49 @@ class PagesController < ApplicationController
   def calculate_image_achievement_percentage(displayed, total)
     return 0 if displayed == 0
     percentage = (displayed.to_f / total * 100).round(1)
-    [percentage, 100.0].min
+    [ percentage, 100.0 ].min
   end
 
   def determine_achievement_level(percentage)
     if percentage >= 100
-       { 
-         level: "✨", 
-         title: "秋の世界の神様", 
+       {
+         level: "✨",
+         title: "秋の世界の神様",
          message: "完璧！あなたは秋の全てを表現しました！",
          color: "#E91E63"
        }
     elsif percentage >= 85
-       { 
-         level: "👑", 
-         title: "秋の世界の創造主", 
+       {
+         level: "👑",
+         title: "秋の世界の創造主",
          message: "ほぼ完璧な秋の世界です！",
          color: "#FF6B35"
        }
     elsif percentage >= 70
-       { 
-         level: "🏆", 
-         title: "秋のアーティスト", 
+       {
+         level: "🏆",
+         title: "秋のアーティスト",
          message: "素晴らしい秋の世界を創造しました！",
          color: "#FFD54F"
        }
     elsif percentage >= 50
-       { 
-         level: "🍁", 
-         title: "秋の魔法使い", 
+       {
+         level: "🍁",
+         title: "秋の魔法使い",
          message: "言葉で秋を自在に操っています！",
          color: "#FF8A65"
        }
     elsif percentage >= 30
-       { 
-         level: "🍂", 
-         title: "秋の画家", 
+       {
+         level: "🍂",
+         title: "秋の画家",
          message: "美しい秋の風景を描いていますね！",
          color: "#FFB74D"
        }
     elsif percentage >= 15
-       { 
-         level: "🍃", 
-         title: "秋を描く人", 
+       {
+         level: "🍃",
+         title: "秋を描く人",
          message: "秋の色彩が少しずつ見えてきました！",
          color: "#AED581"
        }
@@ -184,42 +184,42 @@ class PagesController < ApplicationController
   end
 
   def build_complete_landscape_state
-  # 初期状態（全てfalse）
+    # 初期状態（全てfalse）
     @landscape_state = {
       # 基本要素（景色の色変化など）
-      'trees_color_autumn' => false,
-      'mountain_color_autumn' => false,
-      'sky_color_autumn' => false,
-      'ground_color_autumn' => false,
-      'cloud_style_autumn' => false,
-      'grandma_style_autumn' => false,
-      
+      "trees_color_autumn" => false,
+      "mountain_color_autumn" => false,
+      "sky_color_autumn" => false,
+      "ground_color_autumn" => false,
+      "cloud_style_autumn" => false,
+      "grandma_style_autumn" => false,
+
       # 表示要素（画像レイヤー）- count_displayed_imagesと統一
-      'maple' => check_word_variations(['カエデ', '楓']),
-      'ginkgo' => check_word_variations(['イチョウ', '銀杏']),
-      'grass' => check_word_variations(['ススキ', 'すすき']),
-      'chestnut' => @used_words.include?('栗'),
-      'book' => @used_words.include?('読書'),
-      'acorns' => @used_words.include?('どんぐり'),
-      'apple' => check_word_variations(['りんご', 'リンゴ', '林檎']),
-      'dango' => @used_words.include?('お月見'),
-      'cat' => @used_words.include?('猫'),
-      'dog' => @used_words.include?('犬'),
-      'fish' => check_word_variations(['秋刀魚', 'さんま']),
-      'fire' => check_word_variations(['焚き火', 'たき火']),
-      'persimmon' => @used_words.include?('柿'),
-      'osmanthus' => @used_words.include?('金木犀'),
-      'cosmos' => @used_words.include?('コスモス'),
-      'dragonfly' => check_word_variations(['赤とんぼ', 'とんぼ', 'トンボ']),
-      'leaves' => check_word_variations(['落ち葉', 'もみじ', 'もみじ狩り']),
-      'dahlia' => @used_words.include?('ダリア'),
-      'sweetpotato' => check_word_variations(['さつまいも', 'やきいも']),
-      'gentian' => @used_words.include?('リンドウ'),
-      'muscle' => check_word_variations(['筋トレ', 'スポーツ', '運動']),
-      'halloween' => check_word_variations(['ハロウィン', 'ハロウィーン']),
-      'art' => @used_words.include?('芸術')
+      "maple" => check_word_variations([ "カエデ", "楓" ]),
+      "ginkgo" => check_word_variations([ "イチョウ", "銀杏" ]),
+      "grass" => check_word_variations([ "ススキ", "すすき" ]),
+      "chestnut" => @used_words.include?("栗"),
+      "book" => @used_words.include?("読書"),
+      "acorns" => @used_words.include?("どんぐり"),
+      "apple" => check_word_variations([ "りんご", "リンゴ", "林檎" ]),
+      "dango" => @used_words.include?("お月見"),
+      "cat" => @used_words.include?("猫"),
+      "dog" => @used_words.include?("犬"),
+      "fish" => check_word_variations([ "秋刀魚", "さんま" ]),
+      "fire" => check_word_variations([ "焚き火", "たき火" ]),
+      "persimmon" => @used_words.include?("柿"),
+      "osmanthus" => @used_words.include?("金木犀"),
+      "cosmos" => @used_words.include?("コスモス"),
+      "dragonfly" => check_word_variations([ "赤とんぼ", "とんぼ", "トンボ" ]),
+      "leaves" => check_word_variations([ "落ち葉", "もみじ", "もみじ狩り" ]),
+      "dahlia" => @used_words.include?("ダリア"),
+      "sweetpotato" => check_word_variations([ "さつまいも", "やきいも" ]),
+      "gentian" => @used_words.include?("リンドウ"),
+      "muscle" => check_word_variations([ "筋トレ", "スポーツ", "運動" ]),
+      "halloween" => check_word_variations([ "ハロウィン", "ハロウィーン" ]),
+      "art" => @used_words.include?("芸術")
     }
-  
+
     # 使用された単語を全てチェックして景色の色変化を適用
     @used_words.each do |word|
     apply_autumn_effects(word)
@@ -227,10 +227,10 @@ class PagesController < ApplicationController
   end
 
   def apply_autumn_effects(word)
-  # 既存のcheck_autumn_wordメソッドを活用
+    # 既存のcheck_autumn_wordメソッドを活用
     autumn_data = check_autumn_word(word)
     return unless autumn_data
-    
+
     case autumn_data[:effect_type]
     when "multiple"
       # 「紅葉」などの複数効果
@@ -249,9 +249,9 @@ class PagesController < ApplicationController
 
   def check_autumn_word(word)
     autumn_data = {
-      "紅葉" => { 
+      "紅葉" => {
         effect_type: "multiple",
-        effect_data: ["trees_color", "mountain_color"],
+        effect_data: [ "trees_color", "mountain_color" ],
         message: "木々山々が美しく色づきました"
       },
 
@@ -308,7 +308,7 @@ class PagesController < ApplicationController
       "プロポーズ" => { effect_type: "message_only", effect_data: "story", message: "おばあさん「『君の人生を描かせてほしい、結婚してください！』ってね。びっくりしたけど、なんかあれよね。ロマンチック」" },
       "ロマンチック" => { effect_type: "message_only", effect_data: "story", message: "おばあさん「ふふ、いい思い出だわ。おじいさん、去年、亡くなっちゃったけどね。こんな秋の日で、その年は、90歳」" },
       "90歳" => { effect_type: "message_only", effect_data: "story", message: "おばあさん「きっといまも、絵を書いているんでしょうね。そろそろお彼岸ね、あれをしなくちゃ。秋といえば、おじいさんのお墓参り」" },
-      "おじいさんのお墓参り" => { effect_type: "message_only", effect_data: "story", message: "おばあさん「いまはみーちゃんもワン助も遊びにきてくれるから、楽しいのよ。話を聞いてくれてありがとね、楽しかったわ。」" },
+      "おじいさんのお墓参り" => { effect_type: "message_only", effect_data: "story", message: "おばあさん「いまはみーちゃんもワン助も遊びにきてくれるから、楽しいのよ。話を聞いてくれてありがとね、楽しかったわ。」" }
     }
 
     autumn_data[word]
