@@ -1,24 +1,19 @@
-# README
+🍂 夏の風景を秋に彩るお遊びです
+概要
+とっても単純。
+入力欄に「秋といえば」のものを入力すると、夏の風景イラストに秋のイラストが追加され、だんだん秋になります。
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+開発経緯
+秋といえばを全部味わってもらおうと思い作ってみました。
 
-Things you may want to cover:
+使用技術
+フロントエンド：HTML,CSS,Stimulus,Turbo
+バックエンド：Rails
 
-* Ruby version
+工夫した点
+体力と気力もつかぎり、秋といえばのアイテムを投入。
+最後の完成画面で、秋の完成度を％で表現し、達成感を味わってもらう。
+こっそり、おじいさんエピソード入れて、ストーリー性もほんの少しもたせる。
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+その他
+ミニアプリウィーク用のため、期間限定の予定。
