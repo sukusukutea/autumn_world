@@ -192,30 +192,31 @@ body {
   &.cloud-layer { z-index: 2; }
   &.mountain-layer { z-index: 3; }
   &.ground-layer { z-index: 4; }
-  &.trees-layer { z-index: 5; }
-  &.maple-layer { z-index: 6; display: none; }
-  &.ginkgo-layer { z-index: 7; display: none; }
-  &.grass-layer { z-index: 8; display: none; }
-  &.osmanthus-layer { z-index: 9; display: none; }
-  &.muscle-layer { z-index: 10; display: none; }
-  &.fire-layer { z-index: 11; display: none; }
-  &.chestnut-layer { z-index: 12; display: none; }
-  &.sweetpotato-layer { z-index: 13; display: none; }
-  &.dango-layer { z-index: 14; display: none; }
-  &.grandma-layer { z-index: 15; }
-  &.book-layer { z-index: 16; display: none; }
-  &.acorns-layer { z-index: 17; display: none; }
-  &.apple-layer { z-index: 18; display: none; }
-  &.cat-layer { z-index: 19; display: none; }
-  &.dog-layer { z-index: 20; display: none; }
-  &.fish-layer { z-index: 21; display: none; }
-  &.persimmon-layer { z-index: 22; display: none; }
-  &.cosmos-layer { z-index: 23; display: none; }
-  &.dragonfly-layer { z-index: 24; display: none; }
-  &.leaves-layer { z-index: 25; display: none; }
-  &.dahlia-layer { z-index: 26; display: none; }
-  &.gentian-layer { z-index: 27; display: none; }
-  
+  &.halloween-layer { z-index: 5; display: none; }
+  &.trees-layer { z-index: 6; }
+  &.maple-layer { z-index: 7; display: none; }
+  &.ginkgo-layer { z-index: 8; display: none; }
+  &.grass-layer { z-index: 9; display: none; }
+  &.osmanthus-layer { z-index: 10; display: none; }
+  &.muscle-layer { z-index: 11; display: none; }
+  &.fire-layer { z-index: 12; display: none; }
+  &.chestnut-layer { z-index: 13; display: none; }
+  &.sweetpotato-layer { z-index: 14; display: none; }
+  &.dango-layer { z-index: 15; display: none; }
+  &.grandma-layer { z-index: 16; }
+  &.book-layer { z-index: 17; display: none; }
+  &.acorns-layer { z-index: 18; display: none; }
+  &.art-layer { z-index: 19; display: none; }
+  &.apple-layer { z-index: 20; display: none; }
+  &.cat-layer { z-index: 21; display: none; }
+  &.dog-layer { z-index: 22; display: none; }
+  &.fish-layer { z-index: 23; display: none; }
+  &.persimmon-layer { z-index: 24; display: none; }
+  &.cosmos-layer { z-index: 25; display: none; }
+  &.dragonfly-layer { z-index: 26; display: none; }
+  &.leaves-layer { z-index: 27; display: none; }
+  &.dahlia-layer { z-index: 28; display: none; }
+  &.gentian-layer { z-index: 29; display: none; }
 }
 
 .layer-image {
