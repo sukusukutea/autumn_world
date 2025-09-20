@@ -1,7 +1,12 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["sky", "trees", "ground", "message", "wordInput", "cloud", "mountain", "grandma", "persimmon", "grass", "apple", "fire", "fish", "cosmos", "cat", "dog", "dango", "muscle", "book", "osmanthus", "dragonfly", "leaves", "dahlia", "chestnut", "acorns", "sweetpotato", "gentian", "maple", "ginkgo"]
+  static targets = [
+    "sky", "trees", "ground", "message", "wordInput", "cloud", "mountain", "grandma", "persimmon",
+    "grass", "apple", "fire", "fish", "cosmos", "cat", "dog", "dango", "muscle", "book", "osmanthus",
+    "dragonfly", "leaves", "dahlia", "chestnut", "acorns", "sweetpotato", "gentian", "maple", "ginkgo",
+    "halloween", "art"
+  ]
   static values = { 
     summerSky: String,
     autumnSky: String,
@@ -34,7 +39,10 @@ export default class extends Controller {
     chestnutImage: String,
     sweetpotatoImage: String,
     gentianImage: String,
-    mapleImage: String
+    mapleImage: String,
+    ginkgoImage: String,
+    halloweenImage: String,
+    artImage: String,
   }
 
   connect() {
@@ -97,129 +105,28 @@ export default class extends Controller {
 
       const data = await response.json()
       
+      this.handleResponse(data)
+      
+      // 🌟 成功時のみ入力欄をクリア
       if (data.success) {
-        // 成功時の処理
-        this.showMessage(data.message, "success")
-        
-        // エフェクトがある場合は適用
-        if (data.effect) {
-          this.applyEffect(data.effect)
-        }
-        
-        // 入力欄をクリア
         this.wordInputTarget.value = ""
-      } else {
-        // 失敗時の処理
-        this.showMessage(data.message, "error")
       }
+      
     } catch (error) {
       console.error('エラーが発生しました:', error)
       this.showMessage("通信エラーが発生しました", "error")
     }
   }
 
-  //初期画面にはない追加画像
-  addElement(elementType) {
-    console.log(`${elementType}を追加開始...`)
-  
-    const elementConfig = {
-      persimmon: { target: this.persimmonTarget, name: "柿" },
-      apple: { target: this.appleTarget, name: "りんご" },
-      grass: { target: this.grassTarget, name: "ススキ" },
-      maple: { target: this.mapleTarget, name: "カエデ" },
-      ginkgo: { target: this.ginkgoTarget, name: "イチョウ" },
-      leaves: { target: this.leavesTarget, name: "落ち葉" },
-      fire: { target: this.fireTarget, name: "焚き火" },
-      fish: { target: this.fishTarget, name: "魚" },
-      cosmos: { target: this.cosmosTarget, name: "コスモス" },
-      cat: { target: this.catTarget, name: "猫" },
-      dog: { target: this.dogTarget, name: "犬" },
-      book: { target: this.bookTarget, name: "読書" },
-      muscle: { target: this.muscleTarget, name: "筋トレ" },
-      dango: { target: this.dangoTarget, name: "お月見" },
-      osmanthus: { target: this.osmanthusTarget, name: "金木犀" },
-      dragonfly: { target: this.dragonflyTarget, name: "赤とんぼ" },
-      leaves: { target: this.leavesTarget, name: "落ち葉" },
-      dahlia: { target: this.dahliaTarget, name: "ダリア" },
-      chestnut: { target: this.chestnutTarget, name: "栗" },
-      acorns: { target: this.acornsTarget, name: "どんぐり" },
-      sweetpotato: { target: this.sweetpotatoTarget, name: "さつまいも" },
-      gentian: { target: this.gentianTarget, name: "さつまいも" }
-    }
-  
-    const config = elementConfig[elementType]
-    if (!config) {
-      console.warn(`未知の要素タイプ: ${elementType}`)
-      return
-    }
-  
-    const target = config.target
-
-    const parentLayer = target.parentElement
-      if (parentLayer && parentLayer.classList.contains('layer')) {
-      parentLayer.style.display = "block"
-      console.log(`${config.name}の親レイヤーを表示しました`)
-    }
-
-    // シンプルに表示状態にする
-    target.style.display = "block"
-    target.style.opacity = "1"
-  
-    console.log(`${config.name}の表示完了`)
-  }
-
-  //要素を削除する機能（アニメーションなし）
-  removeElement(elementType) {
-    console.log(`${elementType}を削除開始...`)
-  
-    const elementConfig = {
-      persimmon: { target: this.persimmonTarget, name: "柿" },
-      apple: { target: this.appleTarget, name: "りんご" },
-      maple: { target: this.mapleTarget, name: "カエデ" },
-      ginkgo: { target: this.ginkgoTarget, name: "イチョウ" },
-      leaves: { target: this.leavesTarget, name: "落ち葉" },
-      grass: { target: this.grassTarget, name: "ススキ" },
-      fire: { target: this.fireTarget, name: "焚き火" },
-      fish: { target: this.fishTarget, name: "魚" },
-      cosmos: { target: this.cosmosTarget, name: "コスモス" },
-      cat: { target: this.catTarget, name: "猫" },
-      dog: { target: this.dogTarget, name: "犬" },
-      book: { target: this.bookTarget, name: "読書" },
-      muscle: { target: this.muscleTarget, name: "筋トレ" },
-      dango: { target: this.dangoTarget, name: "お月見" },
-      osmanthus: { target: this.osmanthusTarget, name: "金木犀" },
-      dragonfly: { target: this.dragonflyTarget, name: "赤とんぼ" },
-      leaves: { target: this.leavesTarget, name: "落ち葉" },
-      dahlia: { target: this.dahliaTarget, name: "ダリア" },
-      chestnut: { target: this.chestnutTarget, name: "栗" },
-      acorns: { target: this.acornsTarget, name: "どんぐり" },
-      sweetpotato: { target: this.sweetpotatoTarget, name: "さつまいも" },
-      gentian: { target: this.gentianTarget, name: "リンドウ" },
-    }
-  
-    const config = elementConfig[elementType]
-    if (!config) return
-  
-    const target = config.target
-    if (!target) return
-
-    // 🔧 親要素（レイヤー）を非表示にする
-    const parentLayer = target.parentElement
-    if (parentLayer && parentLayer.classList.contains('layer')) {
-      parentLayer.style.display = "none"
-      console.log(`${config.name}の親レイヤーを非表示にしました`)
-    }
-  
-    // シンプルに非表示にする
-    target.style.display = "none"
-  
-    console.log(`${config.name}の削除完了`)
-  }
-
   // エフェクト適用処理
   applyEffect(effect) {
     console.log("エフェクト適用:", effect)
   
+    if (effect.effect_type === "message_only") {
+      console.log('メッセージのみエフェクト - 処理完了')
+      return // メッセージは既に表示済み、追加処理不要
+    }
+
     // 複数エフェクトの場合（紅葉で木と山が同時変化）
     if (effect.effect_type === "multiple") {
       console.log("複数エフェクト実行:", effect.effect_data)
@@ -304,11 +211,117 @@ export default class extends Controller {
         this.addElement("gentian")
       } else if (effect.effect_data === "ginkgo") {
         this.addElement("ginkgo")
+      } else if (effect.effect_data === "halloween") {
+        this.addElement("halloween")
+      } else if (effect.effect_data === "art") {
+        this.addElement("art")
       }
       break
       default:
         console.log("未対応のエフェクト:", effect.effect_type)
     }
+  }
+
+  //初期画面にはない追加画像
+  addElement(elementType) {
+    console.log(`${elementType}を追加開始...`)
+  
+    const elementConfig = {
+      persimmon: { target: this.persimmonTarget, name: "柿" },
+      apple: { target: this.appleTarget, name: "りんご" },
+      grass: { target: this.grassTarget, name: "ススキ" },
+      maple: { target: this.mapleTarget, name: "カエデ" },
+      ginkgo: { target: this.ginkgoTarget, name: "イチョウ" },
+      leaves: { target: this.leavesTarget, name: "落ち葉" },
+      fire: { target: this.fireTarget, name: "焚き火" },
+      fish: { target: this.fishTarget, name: "魚" },
+      cosmos: { target: this.cosmosTarget, name: "コスモス" },
+      cat: { target: this.catTarget, name: "猫" },
+      dog: { target: this.dogTarget, name: "犬" },
+      book: { target: this.bookTarget, name: "読書" },
+      muscle: { target: this.muscleTarget, name: "筋トレ" },
+      dango: { target: this.dangoTarget, name: "お月見" },
+      osmanthus: { target: this.osmanthusTarget, name: "金木犀" },
+      dragonfly: { target: this.dragonflyTarget, name: "赤とんぼ" },
+      leaves: { target: this.leavesTarget, name: "落ち葉" },
+      dahlia: { target: this.dahliaTarget, name: "ダリア" },
+      chestnut: { target: this.chestnutTarget, name: "栗" },
+      acorns: { target: this.acornsTarget, name: "どんぐり" },
+      sweetpotato: { target: this.sweetpotatoTarget, name: "さつまいも" },
+      gentian: { target: this.gentianTarget, name: "リンドウ" },
+      halloween: { target: this.halloweenTarget, name: "ハロウィン" },
+      art: { target: this.artTarget, name: "芸術" }
+    }
+  
+    const config = elementConfig[elementType]
+    if (!config) {
+      console.warn(`未知の要素タイプ: ${elementType}`)
+      return
+    }
+  
+    const target = config.target
+
+    const parentLayer = target.parentElement
+      if (parentLayer && parentLayer.classList.contains('layer')) {
+      parentLayer.style.display = "block"
+      console.log(`${config.name}の親レイヤーを表示しました`)
+    }
+
+    // シンプルに表示状態にする
+    target.style.display = "block"
+    target.style.opacity = "1"
+  
+    console.log(`${config.name}の表示完了`)
+  }
+
+  //要素を削除する機能（アニメーションなし）
+  removeElement(elementType) {
+    console.log(`${elementType}を削除開始...`)
+  
+    const elementConfig = {
+      persimmon: { target: this.persimmonTarget, name: "柿" },
+      apple: { target: this.appleTarget, name: "りんご" },
+      maple: { target: this.mapleTarget, name: "カエデ" },
+      ginkgo: { target: this.ginkgoTarget, name: "イチョウ" },
+      leaves: { target: this.leavesTarget, name: "落ち葉" },
+      grass: { target: this.grassTarget, name: "ススキ" },
+      fire: { target: this.fireTarget, name: "焚き火" },
+      fish: { target: this.fishTarget, name: "魚" },
+      cosmos: { target: this.cosmosTarget, name: "コスモス" },
+      cat: { target: this.catTarget, name: "猫" },
+      dog: { target: this.dogTarget, name: "犬" },
+      book: { target: this.bookTarget, name: "読書" },
+      muscle: { target: this.muscleTarget, name: "筋トレ" },
+      dango: { target: this.dangoTarget, name: "お月見" },
+      osmanthus: { target: this.osmanthusTarget, name: "金木犀" },
+      dragonfly: { target: this.dragonflyTarget, name: "赤とんぼ" },
+      leaves: { target: this.leavesTarget, name: "落ち葉" },
+      dahlia: { target: this.dahliaTarget, name: "ダリア" },
+      chestnut: { target: this.chestnutTarget, name: "栗" },
+      acorns: { target: this.acornsTarget, name: "どんぐり" },
+      sweetpotato: { target: this.sweetpotatoTarget, name: "さつまいも" },
+      gentian: { target: this.gentianTarget, name: "リンドウ" },
+      halloween: { target: this.halloweenTarget, name: "ハロウィン" },
+      art: { target: this.artTarget, name: "芸術" }
+    }
+  
+    const config = elementConfig[elementType]
+    if (!config) return
+  
+    const target = config.target
+    if (!target) return
+
+    // 🔧 親要素（レイヤー）を非表示にする
+    const parentLayer = target.parentElement
+    if (parentLayer && parentLayer.classList.contains('layer')) {
+      parentLayer.style.display = "none"
+      console.log(`${config.name}の親レイヤーを非表示にしました`)
+    }
+  
+    // シンプルに非表示にする
+    target.style.display = "none"
+  
+    console.log(`${config.name}の削除完了`)
   }
 
   // 木の色変更
@@ -386,6 +399,8 @@ export default class extends Controller {
         this.removeElement("gentian")
         this.removeElement("maple")
         this.removeElement("ginkgo")
+        this.removeElement("halloween")
+        this.removeElement("art")
         
         // フィルターをリセット
         this.skyTarget.style.filter = "none"
@@ -409,7 +424,7 @@ export default class extends Controller {
   }
 
   // 💬 メッセージ表示機能
-  showMessage(text, type = "info") {
+  showMessage(text, type = "info", duration = 3000) {
     const messageElement = this.messageTarget
     
     // メッセージのスタイル設定
@@ -417,7 +432,8 @@ export default class extends Controller {
       success: { color: "#27ae60", background: "#d5f4e6" },
       error: { color: "#e74c3c", background: "#fdf2f2" },
       warning: { color: "#f39c12", background: "#fef9e7" },
-      info: { color: "#3498db", background: "#eaf4fd" }
+      info: { color: "#3498db", background: "#eaf4fd" },
+      story: { color: "#8b4513", background: "#f4f1e8" }
     }
     
     const style = styles[type] || styles.info
@@ -452,8 +468,31 @@ export default class extends Controller {
         messageElement.textContent = ""
         messageElement.style.cssText = ""
       }, 300)
-    }, 3000)
+    }, duration)
     
-    console.log(`💬 メッセージ表示: ${text} (${type})`)
+    console.log(`💬 メッセージ表示: ${text} (${type}) - ${duration}ms`) 
+  }
+
+  handleResponse(response) {
+      console.log('🔍 サーバーからの完全なレスポンス:', JSON.stringify(response, null, 2))
+    if (response.success) {
+      console.log('🔍 response.message_type:', response.message_type)
+      console.log('🔍 response.message_type の型:', typeof response.message_type)
+      // メッセージタイプと表示時間を判定
+      const messageType = response.message_type || "success"
+      const duration = messageType === "story" ? 5000 : 3000
+
+      console.log('🔍 最終的なmessageType:', messageType)
+      console.log('🔍 表示時間:', duration)
+      
+      this.showMessage(response.message, messageType, duration)
+      
+      // 既存のエフェクト処理
+      if (response.effect) {
+        this.applyEffect(response.effect)
+      }
+    } else {
+      this.showMessage(response.message, "error")
+    }
   }
 }

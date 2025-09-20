@@ -44,7 +44,9 @@
        data-game-sweetpotato-image-value="<%= asset_path('autumn/sweetpotato_autumn.png') %>"
        data-game-gentian-image-value="<%= asset_path('autumn/gentian_autumn.png') %>"
        data-game-maple-image-value="<%= asset_path('autumn/maple_autumn.png') %>"
-       data-game-ginkgo-image-value="<%= asset_path('autumn/ginkgo_autumn.png') %>">
+       data-game-ginkgo-image-value="<%= asset_path('autumn/ginkgo_autumn.png') %>"
+       data-game-halloween-image-value="<%= asset_path('autumn/halloween_autumn.png') %>"
+       data-game-art-image-value="<%= asset_path('autumn/art_autumn.png') %>">
     
     <div class="game-field">
       <!-- 空レイヤー -->
@@ -261,6 +263,22 @@
             class: "layer-image",
             id: "ginkgo-image",
             data: { game_target: "ginkgo" }) %>
+      </div>
+
+      <!-- ハロウィンレイヤー -->
+      <div class="layer halloween-layer" style="display: none;">
+        <%= image_tag('autumn/halloween_autumn.png',
+            class: "layer-image",
+            id: "halloween-image",
+            data: { game_target: "halloween" }) %>
+      </div>
+
+      <!-- 芸術家レイヤー -->
+      <div class="layer art-layer" style="display: none;">
+        <%= image_tag('autumn/art_autumn.png',
+            class: "layer-image",
+            id: "art-image",
+            data: { game_target: "art" }) %>
       </div>
     </div>
     

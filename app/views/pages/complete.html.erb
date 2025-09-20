@@ -232,6 +232,18 @@
             <img class="layer-image" src="<%= asset_path('autumn/gentian_autumn.png') %>" alt="リンドウ">
           </div>
         <% end %>
+
+        <% if @landscape_state['halloween'] %>
+          <div class="layer halloween-layer" style="display: block;">
+            <img class="layer-image" src="<%= asset_path('autumn/halloween_autumn.png') %>" alt="ハロウィン">
+          </div>
+        <% end %>
+
+        <% if @landscape_state['art'] %>
+          <div class="layer art-layer" style="display: block;">
+            <img class="layer-image" src="<%= asset_path('autumn/art_autumn.png') %>" alt="芸術">
+          </div>
+        <% end %>
         
         <!-- 完成記念のウォーターマーク -->
         <div class="watermark" style="position: absolute; bottom: 20px; right: 20px; background: rgba(255,255,255,0.8); padding: 10px 15px; border-radius: 10px; font-size: 14px; text-align: center; z-index: 100;">
@@ -246,7 +258,7 @@
       <%= link_to "トップに戻る", root_path, class: "reset-btn", style: "text-decoration: none;" %>
 
       <button onclick="captureAndShare()" class="share-btn" style="background: linear-gradient(45deg, #1DA1F2, #0d8bd9); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 14px; transition: transform 0.2s; text-decoration: none;">
-      X 画面をシェア
+      Xでシェア
      </button>
     </div>
   </div>
